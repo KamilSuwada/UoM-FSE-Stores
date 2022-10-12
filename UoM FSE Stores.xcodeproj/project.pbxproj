@@ -9,6 +9,20 @@
 /* Begin PBXBuildFile section */
 		7F90B24428F74E0A00047012 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7F90B24328F74E0A00047012 /* Assets.xcassets */; };
 		7F90B24728F74E0A00047012 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7F90B24528F74E0A00047012 /* LaunchScreen.storyboard */; };
+		7F90B25628F74EAF00047012 /* Chem_Database.json in Resources */ = {isa = PBXBuildFile; fileRef = 7F90B25328F74EAF00047012 /* Chem_Database.json */; };
+		7F90B25728F74EAF00047012 /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F90B25428F74EAF00047012 /* MainVC.swift */; };
+		7F90B25828F74EAF00047012 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F90B25528F74EAF00047012 /* AppDelegate.swift */; };
+		7F90B25C28F74EE400047012 /* BasketVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F90B25B28F74EE400047012 /* BasketVC.swift */; };
+		7F90B26228F74EF700047012 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F90B25D28F74EF700047012 /* Category.swift */; };
+		7F90B26328F74EF700047012 /* CatalogueManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F90B25E28F74EF700047012 /* CatalogueManager.swift */; };
+		7F90B26428F74EF700047012 /* Department.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F90B25F28F74EF700047012 /* Department.swift */; };
+		7F90B26528F74EF700047012 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F90B26028F74EF700047012 /* Item.swift */; };
+		7F90B26628F74EF700047012 /* Catalogue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F90B26128F74EF700047012 /* Catalogue.swift */; };
+		7F90B26928F74F1500047012 /* CatalogueVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F90B26728F74F1500047012 /* CatalogueVC.swift */; };
+		7F90B26A28F74F1500047012 /* DepartmentVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F90B26828F74F1500047012 /* DepartmentVC.swift */; };
+		7F90B26C28F74F1D00047012 /* DepartmentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F90B26B28F74F1D00047012 /* DepartmentCell.swift */; };
+		7F90B27028F74F3500047012 /* UIResponderExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F90B26E28F74F3500047012 /* UIResponderExtension.swift */; };
+		7F90B27128F74F3500047012 /* UIViewControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F90B26F28F74F3500047012 /* UIViewControllerExtensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -16,6 +30,20 @@
 		7F90B24328F74E0A00047012 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7F90B24628F74E0A00047012 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7F90B24828F74E0A00047012 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7F90B25328F74EAF00047012 /* Chem_Database.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Chem_Database.json; sourceTree = "<group>"; };
+		7F90B25428F74EAF00047012 /* MainVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainVC.swift; sourceTree = "<group>"; };
+		7F90B25528F74EAF00047012 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		7F90B25B28F74EE400047012 /* BasketVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasketVC.swift; sourceTree = "<group>"; };
+		7F90B25D28F74EF700047012 /* Category.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
+		7F90B25E28F74EF700047012 /* CatalogueManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CatalogueManager.swift; sourceTree = "<group>"; };
+		7F90B25F28F74EF700047012 /* Department.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Department.swift; sourceTree = "<group>"; };
+		7F90B26028F74EF700047012 /* Item.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
+		7F90B26128F74EF700047012 /* Catalogue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Catalogue.swift; sourceTree = "<group>"; };
+		7F90B26728F74F1500047012 /* CatalogueVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CatalogueVC.swift; sourceTree = "<group>"; };
+		7F90B26828F74F1500047012 /* DepartmentVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DepartmentVC.swift; sourceTree = "<group>"; };
+		7F90B26B28F74F1D00047012 /* DepartmentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DepartmentCell.swift; sourceTree = "<group>"; };
+		7F90B26E28F74F3500047012 /* UIResponderExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIResponderExtension.swift; sourceTree = "<group>"; };
+		7F90B26F28F74F3500047012 /* UIViewControllerExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,6 +76,11 @@
 		7F90B23928F74E0900047012 /* UoM FSE Stores */ = {
 			isa = PBXGroup;
 			children = (
+				7F90B25528F74EAF00047012 /* AppDelegate.swift */,
+				7F90B25428F74EAF00047012 /* MainVC.swift */,
+				7F90B24F28F74E7E00047012 /* Catalogue */,
+				7F90B25A28F74ED500047012 /* Basket */,
+				7F90B25928F74EBD00047012 /* Data */,
 				7F90B24E28F74E2E00047012 /* Files */,
 			);
 			path = "UoM FSE Stores";
@@ -61,6 +94,71 @@
 				7F90B24828F74E0A00047012 /* Info.plist */,
 			);
 			name = Files;
+			sourceTree = "<group>";
+		};
+		7F90B24F28F74E7E00047012 /* Catalogue */ = {
+			isa = PBXGroup;
+			children = (
+				7F90B25228F74E8F00047012 /* Data Model */,
+				7F90B25128F74E8A00047012 /* Cells */,
+				7F90B25028F74E8600047012 /* VCs */,
+			);
+			name = Catalogue;
+			sourceTree = "<group>";
+		};
+		7F90B25028F74E8600047012 /* VCs */ = {
+			isa = PBXGroup;
+			children = (
+				7F90B26728F74F1500047012 /* CatalogueVC.swift */,
+				7F90B26828F74F1500047012 /* DepartmentVC.swift */,
+			);
+			name = VCs;
+			sourceTree = "<group>";
+		};
+		7F90B25128F74E8A00047012 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				7F90B26B28F74F1D00047012 /* DepartmentCell.swift */,
+			);
+			name = Cells;
+			sourceTree = "<group>";
+		};
+		7F90B25228F74E8F00047012 /* Data Model */ = {
+			isa = PBXGroup;
+			children = (
+				7F90B25E28F74EF700047012 /* CatalogueManager.swift */,
+				7F90B26128F74EF700047012 /* Catalogue.swift */,
+				7F90B25F28F74EF700047012 /* Department.swift */,
+				7F90B25D28F74EF700047012 /* Category.swift */,
+				7F90B26028F74EF700047012 /* Item.swift */,
+			);
+			name = "Data Model";
+			sourceTree = "<group>";
+		};
+		7F90B25928F74EBD00047012 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				7F90B25328F74EAF00047012 /* Chem_Database.json */,
+				7F90B26D28F74F2900047012 /* Utils */,
+			);
+			name = Data;
+			sourceTree = "<group>";
+		};
+		7F90B25A28F74ED500047012 /* Basket */ = {
+			isa = PBXGroup;
+			children = (
+				7F90B25B28F74EE400047012 /* BasketVC.swift */,
+			);
+			name = Basket;
+			sourceTree = "<group>";
+		};
+		7F90B26D28F74F2900047012 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				7F90B26E28F74F3500047012 /* UIResponderExtension.swift */,
+				7F90B26F28F74F3500047012 /* UIViewControllerExtensions.swift */,
+			);
+			name = Utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -95,6 +193,7 @@
 				TargetAttributes = {
 					7F90B23628F74E0900047012 = {
 						CreatedOnToolsVersion = 14.0.1;
+						LastSwiftMigration = 1400;
 					};
 				};
 			};
@@ -123,6 +222,7 @@
 			files = (
 				7F90B24728F74E0A00047012 /* LaunchScreen.storyboard in Resources */,
 				7F90B24428F74E0A00047012 /* Assets.xcassets in Resources */,
+				7F90B25628F74EAF00047012 /* Chem_Database.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -133,6 +233,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7F90B26328F74EF700047012 /* CatalogueManager.swift in Sources */,
+				7F90B25828F74EAF00047012 /* AppDelegate.swift in Sources */,
+				7F90B25C28F74EE400047012 /* BasketVC.swift in Sources */,
+				7F90B27128F74F3500047012 /* UIViewControllerExtensions.swift in Sources */,
+				7F90B25728F74EAF00047012 /* MainVC.swift in Sources */,
+				7F90B26A28F74F1500047012 /* DepartmentVC.swift in Sources */,
+				7F90B26528F74EF700047012 /* Item.swift in Sources */,
+				7F90B26228F74EF700047012 /* Category.swift in Sources */,
+				7F90B26428F74EF700047012 /* Department.swift in Sources */,
+				7F90B26928F74F1500047012 /* CatalogueVC.swift in Sources */,
+				7F90B26C28F74F1D00047012 /* DepartmentCell.swift in Sources */,
+				7F90B27028F74F3500047012 /* UIResponderExtension.swift in Sources */,
+				7F90B26628F74EF700047012 /* Catalogue.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -269,6 +382,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3RLAVX9QDP;
@@ -286,6 +400,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.KS.UoM-FSE-Stores";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -296,6 +411,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3RLAVX9QDP;
