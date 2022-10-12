@@ -61,18 +61,9 @@ struct Item: Codable
         
         for i in 0..<3
         {
-            if i == 0
-            {
-                result = words[i] + " "
-            }
-            else if i == 1
-            {
-                result = result + words[i] + " "
-            }
-            else
-            {
-                result = result + words[i]
-            }
+            if i == 0 { result = words[i] + " " }
+            else if i == 1 { result = result + words[i] + " " }
+            else { result = result + words[i] }
         }
         
         return result
@@ -82,7 +73,7 @@ struct Item: Codable
     // method for increasing quantity by 1.
     public mutating func didTapPlusOne()
     {
-        self.quantity = self.quantity + 1
+        self.quantity += 1
     }
     
     
@@ -91,7 +82,7 @@ struct Item: Codable
     {
         if (self.quantity > 0)
         {
-            self.quantity = self.quantity - 1
+            self.quantity -= 1
         }
     }
     
@@ -104,7 +95,7 @@ struct Item: Codable
     
     
     // method for setting the quantity manually.
-    public mutating func didChangeQuantity(to number: Int)
+    public mutating func changeQuantity(to number: Int)
     {
         guard number >= 0 else { return }
         self.quantity = number

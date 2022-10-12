@@ -27,7 +27,7 @@ class Catalogue
     {
         let chem = catalogueManager.createChemistryCatalogue()
         guard let chemStores = chem else { fatalError("DID NOT READ THE CHEMISTRY DATABASE!") }
-        var chemDept = Department(name: "Chemistry", imageName: "folder.fill", departmentCatalogue: chemStores)
+        let chemDept = Department(name: "Chemistry", imageName: "folder.fill", departmentCatalogue: chemStores)
         self.departments.append(chemDept)
         print("chemistry: \(chemDept.departmentCatalogue.count) categories.")
     }

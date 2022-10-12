@@ -23,6 +23,8 @@
 		7F90B26C28F74F1D00047012 /* DepartmentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F90B26B28F74F1D00047012 /* DepartmentCell.swift */; };
 		7F90B27028F74F3500047012 /* UIResponderExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F90B26E28F74F3500047012 /* UIResponderExtension.swift */; };
 		7F90B27128F74F3500047012 /* UIViewControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F90B26F28F74F3500047012 /* UIViewControllerExtensions.swift */; };
+		7F90B27328F7531100047012 /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F90B27228F7531100047012 /* CategoryCell.swift */; };
+		7F90B27528F7561100047012 /* ItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F90B27428F7561100047012 /* ItemCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +46,8 @@
 		7F90B26B28F74F1D00047012 /* DepartmentCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DepartmentCell.swift; sourceTree = "<group>"; };
 		7F90B26E28F74F3500047012 /* UIResponderExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIResponderExtension.swift; sourceTree = "<group>"; };
 		7F90B26F28F74F3500047012 /* UIViewControllerExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtensions.swift; sourceTree = "<group>"; };
+		7F90B27228F7531100047012 /* CategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCell.swift; sourceTree = "<group>"; };
+		7F90B27428F7561100047012 /* ItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,6 +123,8 @@
 			isa = PBXGroup;
 			children = (
 				7F90B26B28F74F1D00047012 /* DepartmentCell.swift */,
+				7F90B27228F7531100047012 /* CategoryCell.swift */,
+				7F90B27428F7561100047012 /* ItemCell.swift */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -236,6 +242,7 @@
 				7F90B26328F74EF700047012 /* CatalogueManager.swift in Sources */,
 				7F90B25828F74EAF00047012 /* AppDelegate.swift in Sources */,
 				7F90B25C28F74EE400047012 /* BasketVC.swift in Sources */,
+				7F90B27328F7531100047012 /* CategoryCell.swift in Sources */,
 				7F90B27128F74F3500047012 /* UIViewControllerExtensions.swift in Sources */,
 				7F90B25728F74EAF00047012 /* MainVC.swift in Sources */,
 				7F90B26A28F74F1500047012 /* DepartmentVC.swift in Sources */,
@@ -246,6 +253,7 @@
 				7F90B26C28F74F1D00047012 /* DepartmentCell.swift in Sources */,
 				7F90B27028F74F3500047012 /* UIResponderExtension.swift in Sources */,
 				7F90B26628F74EF700047012 /* Catalogue.swift in Sources */,
+				7F90B27528F7561100047012 /* ItemCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
