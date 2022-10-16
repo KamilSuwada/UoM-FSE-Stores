@@ -10,7 +10,7 @@ import Foundation
 
 
 
-struct Item: Codable
+class Item: Codable
 {
     //MARK: - PROPERTIES:
     
@@ -25,6 +25,25 @@ struct Item: Codable
     var isWaste: Bool
     var keywords: [String]
     var imageName: String
+    
+    
+    // MARK: - INIT:
+    
+    
+    init(id: String, name: String, code: String, unitIssue: String, price: Double, quantity: Int, isFavourite: Bool, isPPE: Bool, isWaste: Bool, keywords: Array<String>, imageName: String)
+    {
+        self.id = id
+        self.name = name
+        self.code = code
+        self.unitIssue = unitIssue
+        self.price = price
+        self.quantity = quantity
+        self.isFavourite = isFavourite
+        self.isPPE = isPPE
+        self.isWaste = isWaste
+        self.keywords = keywords
+        self.imageName = imageName
+    }
     
     
     //MARK: - METHODS:
@@ -71,31 +90,34 @@ struct Item: Codable
     
     
     // method for increasing quantity by 1.
-    public mutating func didTapPlusOne()
+    public func didTapPlusOne()
     {
         self.quantity += 1
     }
     
     
     // method for decreasing the quantity by 1. Only called when quantity is greater than zero: we will not order -1 bottles of DCM.
-    public mutating func didTapMinusOne()
+    public func didTapMinusOne() -> Bool
     {
         if (self.quantity > 0)
         {
             self.quantity -= 1
+            return true
         }
+        
+        return false
     }
     
     
     // method for toggling the selection of an item as favourite.
-    public mutating func didTapFavourite()
+    public func didTapFavourite()
     {
         self.isFavourite.toggle()
     }
     
     
     // method for setting the quantity manually.
-    public mutating func changeQuantity(to number: Int)
+    public func changeQuantity(to number: Int)
     {
         guard number >= 0 else { return }
         self.quantity = number

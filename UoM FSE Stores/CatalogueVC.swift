@@ -115,7 +115,7 @@ extension CatalogueVC
     {
         for department in catalogue.departments
         {
-            let VC = DepartmentVC(department)
+            let VC = DepartmentVC(catalogue: catalogue, department: department)
             departmentVCs.append(VC)
         }
     }

@@ -10,7 +10,7 @@ import Foundation
 
 
 
-struct Category: Codable
+class Category: Codable
 {
     // MARK: - Properties:
     
@@ -24,7 +24,19 @@ struct Category: Codable
     // MARK: - Methods:
     
     
-    public mutating func didTapOnCategory()
+    // MARK: - INIT:
+    
+    
+    init(id: String, name: String, isOpened: Bool, items: Array<Item>)
+    {
+        self.id = id
+        self.name = name
+        self.isOpened = isOpened
+        self.items = items
+    }
+    
+    
+    public func didTapOnCategory()
     {
         isOpened.toggle()
     }

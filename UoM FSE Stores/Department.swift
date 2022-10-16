@@ -10,7 +10,7 @@ import UIKit
 
 
 
-struct Department
+class Department
 {
     // MARK: - PROPERTIES:
     
@@ -22,6 +22,17 @@ struct Department
     
     
     var departmentCatalogue: Array<Category>
+    
+    
+    // MARK: INIT:
+    
+    
+    init(name: String, imageName: String, departmentCatalogue: Array<Category>)
+    {
+        self.name = name
+        self.imageName = imageName
+        self.departmentCatalogue = departmentCatalogue
+    }
     
     
     // MARK: - COMPUTED PROPERTIES:
@@ -55,7 +66,7 @@ struct Department
     // MARK: - METHODS:
     
     
-    public mutating func didTapOnSection(_ section: Int)
+    public func didTapOnSection(_ section: Int)
     {
         self.departmentCatalogue[section].didTapOnCategory()
     }

@@ -53,7 +53,7 @@ extension MainVC
         
         
         let orderVC = UIViewController()
-        orderVC.setTabBarImage(imageName: "doc.text.fill", title: "Order!")
+        orderVC.setTabBarImage(imageName: "doc.text.fill", title: "Order")
         
         
         let aboutVC = UIViewController()

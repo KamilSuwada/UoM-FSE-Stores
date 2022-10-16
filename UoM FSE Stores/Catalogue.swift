@@ -32,4 +32,12 @@ class Catalogue
         print("chemistry: \(chemDept.departmentCatalogue.count) categories.")
     }
     
+    
+    public var allItems: Array<Item>
+    {
+        var output = Array<Item>()
+        for department in departments { output.append(contentsOf: department.allItems) }
+        return output
+    }
+    
 }

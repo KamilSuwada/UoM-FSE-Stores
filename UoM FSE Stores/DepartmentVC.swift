@@ -5,7 +5,7 @@
 //  Created by Kamil Suwada on 06/10/2022.
 //
 
-import UIKit
+import UIKit; import RealmSwift
 
 
 
@@ -15,16 +15,23 @@ class DepartmentVC: UIViewController
     // MARK: - UI PROPERTIES:
     
     
-    /// Data catalogue.
+    /// Default realm.
+    let realm = try! Realm()
+    
+    
+    /// Department catalogue.
     private var department: Department!
     
     
+    /// Whole FSE catalogue
+    private var catalogue: Catalogue!
+    
+    
     /// View used to show number of results being found.
-    private let searchResultsView: UIView =
+    private let searchResultsView: SearchResultsView =
     {
-        let view = UIView()
+        let view = SearchResultsView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .systemPurple
         view.alpha = 0
         return view
     }()
@@ -97,9 +104,10 @@ class DepartmentVC: UIViewController
     // MARK: - INIT:
     
     
-    convenience init(_ department: Department)
+    convenience init(catalogue: Catalogue, department: Department)
     {
         self.init()
+        self.catalogue = catalogue
         self.department = department
     }
     
@@ -216,6 +224,22 @@ extension DepartmentVC
             view.trailingAnchor.constraint(equalToSystemSpacingAfter: searchResultsView.trailingAnchor, multiplier: 0),
             searchResultsView.heightAnchor.constraint(equalToConstant: 50),
         ])
+        
+        searchResultsView.delegate = self
+    }
+    
+}
+
+
+// MARK: - SearchResultsViewDelegate conformance
+extension DepartmentVC: SearchResultsViewDelegate
+{
+    
+    func switchDidChangeValue(to newValue: Bool)
+    {
+        let defaults = UserDefaults.standard
+        defaults.set(newValue, forKey: "SearchAllDepartments")
+        updateSearchResults(for: searchController)
     }
     
 }
@@ -227,17 +251,25 @@ extension DepartmentVC: UISearchResultsUpdating
     
     func updateSearchResults(for searchController: UISearchController)
     {
-        guard let searchText = searchController.searchBar.text, searchText != "" else { isSearching = false; return }
+        guard let searchText = searchController.searchBar.text, searchText != "" else { searchResultsView.setTextOnFoundLabel(" "); isSearching = false; return }
         
-        searchResults = department.allItems.filter
-        { (item: Item) -> Bool in
-            return item.name.lowercased().contains(searchText.lowercased()) || item.code.lowercased().contains(searchText.lowercased()) || item.keywords.joined().lowercased().contains(searchText.lowercased())
+        
+        if UserDefaults.standard.bool(forKey: "SearchAllDepartments")
+        {
+            searchResults = catalogue.allItems.filter
+            { (item: Item) -> Bool in
+                return item.name.lowercased().contains(searchText.lowercased()) || item.code.lowercased().contains(searchText.lowercased()) || item.keywords.joined().lowercased().contains(searchText.lowercased())
+            }
+        }
+        else
+        {
+            searchResults = department.allItems.filter
+            { (item: Item) -> Bool in
+                return item.name.lowercased().contains(searchText.lowercased()) || item.code.lowercased().contains(searchText.lowercased()) || item.keywords.joined().lowercased().contains(searchText.lowercased())
+            }
         }
         
-        // Update search results view:
-        
-        
-        
+        searchResultsView.setTextOnFoundLabel("Found: \(searchResults.count)")
         isSearching = true
     }
     
@@ -343,7 +375,8 @@ extension DepartmentVC: UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String?
     {
-        return "No. of items: \(department.departmentCatalogue[section].items.count)"
+        if !isSearching { return "No. of items: \(department.departmentCatalogue[section].items.count)" }
+        else { return " " }
     }
     
 }
@@ -356,7 +389,7 @@ extension DepartmentVC: ItemCellDelegate
     func didTapPlusOne(for item: Item, in section: Int?, at row: Int?)
     {
         guard let section = section, let row = row else { fatalError("Section and row should never be nil!") }
-        department.departmentCatalogue[section].items[row - 1].didTapPlusOne()
+        item.didTapPlusOne()
         let indexPath = IndexPath(row: row, section: section)
         departmentTableView.reloadRows(at: [indexPath], with: .fade)
     }
@@ -365,16 +398,17 @@ extension DepartmentVC: ItemCellDelegate
     func didTapMinusOne(for item: Item, in section: Int?, at row: Int?)
     {
         guard let section = section, let row = row else { fatalError("Section and row should never be nil!") }
-        department.departmentCatalogue[section].items[row - 1].didTapMinusOne()
+        let allowed = item.didTapMinusOne()
         let indexPath = IndexPath(row: row, section: section)
-        departmentTableView.reloadRows(at: [indexPath], with: .fade)
+        if allowed { departmentTableView.reloadRows(at: [indexPath], with: .fade) }
+        else { departmentTableView.reloadRows(at: [indexPath], with: .left) }
     }
     
     
     func didTapFavourite(for item: Item, in section: Int?, at row: Int?)
     {
         guard let section = section, let row = row else { fatalError("Section and row should never be nil!") }
-        department.departmentCatalogue[section].items[row - 1].didTapFavourite()
+        item.didTapFavourite()
         let indexPath = IndexPath(row: row, section: section)
         departmentTableView.reloadRows(at: [indexPath], with: .fade)
     }
@@ -385,20 +419,21 @@ extension DepartmentVC: ItemCellDelegate
         guard let section = section, let row = row else { fatalError("Section and row should never be nil!") }
         
         let alert = UIAlertController(title: "Change Quantity", message: "Input the new quantity for item: \(item.shortName)", preferredStyle: .alert)
+        let currentQuantity = "Currently at: \(item.quantity)"
         
         alert.addTextField
         { (textField) in
-            textField.placeholder = "\(item.quantity)"
+            textField.placeholder = currentQuantity
             textField.keyboardType = .asciiCapableNumberPad
             textField.tag = 999
         }
         
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler:{ [weak alert, weak self] (_) in
-            guard let self = self, let alert = alert else { alert?.dismiss(animated: true); return }
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler:{ [weak alert, weak self, weak item] (_) in
+            guard let self = self, let item = item, let alert = alert else { alert?.dismiss(animated: true); return }
             guard let textField = alert.textFields?[0] else { alert.dismiss(animated: true); return }
             guard let quantity = Int(textField.text!) else { alert.dismiss(animated: true); return }
             
-            self.department.departmentCatalogue[section].items[row - 1].changeQuantity(to: quantity)
+            item.changeQuantity(to: quantity)
             let indexPath = IndexPath(row: row, section: section)
             self.departmentTableView.reloadRows(at: [indexPath], with: .fade)
         }))
