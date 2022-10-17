@@ -27,6 +27,10 @@ class DepartmentVC: UIViewController
     private var catalogue: Catalogue!
     
     
+    /// Currently selected cell's index path.
+    private var selectedIndexPath: IndexPath?
+    
+    
     /// View used to show number of results being found.
     private let searchResultsView: SearchResultsView =
     {
@@ -37,8 +41,22 @@ class DepartmentVC: UIViewController
     }()
     
     
+    /// View used to change quantity of a tapped item.
+    private let changeQuantityView: ChangeQuantityView =
+    {
+        let view = ChangeQuantityView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.alpha = 0
+        return view
+    }()
+    
+    
     /// Reference to the bottom layout constraint of the SearchResultsView.
     private var searchResultsViewBottomConstraint: NSLayoutConstraint?
+    
+    
+    /// Reference to the bottom layout constraint of the ChangeQuantityView.
+    private var changeQuantityViewBottomConstraint: NSLayoutConstraint?
     
     
     /// Reference to the bottom layout constraint of the DepartmentTableView.
@@ -64,6 +82,7 @@ class DepartmentVC: UIViewController
         searchVC.view.translatesAutoresizingMaskIntoConstraints = false
         searchVC.obscuresBackgroundDuringPresentation = false
         searchVC.searchBar.placeholder = "Search for..."
+        searchVC.searchBar.searchTextField.tag = 1
         return searchVC
     }()
     
@@ -139,6 +158,7 @@ extension DepartmentVC
         registerForNotifications()
         setupTableView()
         setupSearchResultsView()
+        setupChangeQuantityView()
     }
     
     
@@ -173,24 +193,41 @@ extension DepartmentVC
             searchResultsViewBottomConstraint?.constant = 0
             departmentTableViewBottomConstraint?.constant = 0
             searchResultsView.alpha = 0
+            changeQuantityViewBottomConstraint?.constant = 0
+            changeQuantityView.alpha = 0
             view.layoutIfNeeded()
             return
         }
         guard let info = notification.userInfo, let keyboardFrame = info[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue, let tabBarHeight = self.tabBarController?.tabBar.frame.size.height else { return }
-        let searchResultsViewHeight = searchResultsView.bounds.height
         
-        if let textField = UIResponder.currentFirst() as? UITextField
+        if let responder = UIResponder.currentFirst() as? UITextField
         {
-            if textField.tag == 999 { return }
+            if responder.tag == 1
+            {
+                let searchResultsViewHeight = searchResultsView.bounds.height
+                let keyboardHeight = keyboardFrame.cgRectValue.size.height
+                UIView.animate(withDuration: 0.1, animations:{ () -> Void in
+                    self.searchResultsViewBottomConstraint?.constant = -keyboardHeight + tabBarHeight
+                    self.departmentTableViewBottomConstraint?.constant = -keyboardHeight + tabBarHeight - searchResultsViewHeight
+                    self.searchResultsView.alpha = 1
+                    self.view.layoutIfNeeded()
+                })
+            }
+            else if responder.tag == 2
+            {
+                let changeQuantityViewHeight = changeQuantityView.bounds.height
+                let keyboardHeight = keyboardFrame.cgRectValue.size.height
+                UIView.animate(withDuration: 0.1, animations:{ () -> Void in
+                    self.changeQuantityViewBottomConstraint?.constant = -keyboardHeight + tabBarHeight
+                    self.departmentTableViewBottomConstraint?.constant = -keyboardHeight + tabBarHeight - changeQuantityViewHeight
+                    self.changeQuantityView.alpha = 1
+                    self.view.layoutIfNeeded()
+                })
+            }
+            else { fatalError("Unknown responder made the keyboard rise!") }
         }
         
-        let keyboardHeight = keyboardFrame.cgRectValue.size.height
-        UIView.animate(withDuration: 0.1, animations:{ () -> Void in
-            self.searchResultsViewBottomConstraint?.constant = -keyboardHeight + tabBarHeight
-            self.departmentTableViewBottomConstraint?.constant = -keyboardHeight + tabBarHeight - searchResultsViewHeight
-            self.searchResultsView.alpha = 1
-            self.view.layoutIfNeeded()
-        })
+        
     }
     
     
@@ -228,12 +265,42 @@ extension DepartmentVC
         searchResultsView.delegate = self
     }
     
+    
+    private func setupChangeQuantityView()
+    {
+        view.addSubview(changeQuantityView)
+        
+        changeQuantityViewBottomConstraint = changeQuantityView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0)
+        changeQuantityViewBottomConstraint?.isActive = true
+        
+        NSLayoutConstraint.activate([
+            changeQuantityView.leadingAnchor.constraint(equalToSystemSpacingAfter: view.leadingAnchor, multiplier: 0),
+            view.trailingAnchor.constraint(equalToSystemSpacingAfter: changeQuantityView.trailingAnchor, multiplier: 0),
+            changeQuantityView.heightAnchor.constraint(equalToConstant: 100),
+        ])
+        
+        changeQuantityView.delegate = self
+    }
+    
 }
 
 
 // MARK: - SearchResultsViewDelegate conformance
-extension DepartmentVC: SearchResultsViewDelegate
+extension DepartmentVC: SearchResultsViewDelegate, ChangeQuantityViewDelegate
 {
+    
+    func didResign(at indexPath: IndexPath)
+    {
+        departmentTableView.deselectRow(at: indexPath, animated: true)
+        selectedIndexPath = nil
+    }
+    
+    
+    func dataOfItemDidChange(at indexPath: IndexPath)
+    {
+        departmentTableView.reloadRows(at: [indexPath], with: .fade)
+    }
+    
     
     func switchDidChangeValue(to newValue: Bool)
     {
@@ -289,7 +356,7 @@ extension DepartmentVC: UITableViewDelegate, UITableViewDataSource
     {
         if isSearching
         {
-            return 1 // In future, show other stores in a separate sections too...
+            return 1 // In future, show other stores in a separate sections too if UserDefaults.standard.bool(forKey: "SearchAllDepartments") is true...
         }
         else
         {
@@ -319,7 +386,7 @@ extension DepartmentVC: UITableViewDelegate, UITableViewDataSource
             let cell = tableView.dequeueReusableCell(withIdentifier: ItemCell.reuseID, for: indexPath) as! ItemCell
             cell.prepareForReuse()
             let item = searchResults[indexPath.row]
-            cell.configure(with: item, in: indexPath.section, at: indexPath.row)
+            cell.configure(with: item, at: indexPath)
             cell.delegate = self
             return cell
         }
@@ -337,7 +404,7 @@ extension DepartmentVC: UITableViewDelegate, UITableViewDataSource
                 let cell = tableView.dequeueReusableCell(withIdentifier: ItemCell.reuseID, for: indexPath) as! ItemCell
                 cell.prepareForReuse()
                 let item = department.departmentCatalogue[indexPath.section].items[indexPath.row - 1]
-                cell.configure(with: item, in: indexPath.section, at: indexPath.row)
+                cell.configure(with: item, at: indexPath)
                 cell.delegate = self
                 return cell
             }
@@ -347,18 +414,34 @@ extension DepartmentVC: UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
     {
-        tableView.deselectRow(at: indexPath, animated: false)
-        
         if isSearching
         {
-            searchController.isActive = false           // Stopping the search and resigning the first responder.
+            searchController.isActive = false // Stopping the search and resigning the first responder.
+            tableView.deselectRow(at: indexPath, animated: true)
         }
         else
         {
             if indexPath.row == 0
             {
+                tableView.deselectRow(at: indexPath, animated: true)
                 department.didTapOnSection(indexPath.section)
                 tableView.reloadSections([indexPath.section], with: .fade)
+            }
+            else
+            {
+                if selectedIndexPath == indexPath
+                {
+                    tableView.deselectRow(at: indexPath, animated: true)
+                    changeQuantityView.resign()
+                    selectedIndexPath = nil
+                }
+                else
+                {
+                    selectedIndexPath = indexPath
+                    let tappedItem = department.departmentCatalogue[indexPath.section].items[indexPath.row - 1]
+                    changeQuantityView.configureView(for: tappedItem, at: indexPath)
+                    tableView.scrollToRow(at: indexPath, at: .top, animated: true)
+                }
             }
         }
     }
@@ -391,63 +474,31 @@ extension DepartmentVC: UITableViewDelegate, UITableViewDataSource
 extension DepartmentVC: ItemCellDelegate
 {
     
-    func didTapPlusOne(for item: Item, in section: Int?, at row: Int?)
+    func didTapPlusOne(for item: Item, at indexPath: IndexPath?)
     {
-        guard let section = section, let row = row else { fatalError("Section and row should never be nil!") }
+        guard let indexPath = indexPath else { fatalError("IndexPath should never be nil!") }
         item.didTapPlusOne()
-        let indexPath = IndexPath(row: row, section: section)
         departmentTableView.reloadRows(at: [indexPath], with: .fade)
+        if let path = selectedIndexPath { departmentTableView.selectRow(at: path, animated: true, scrollPosition: .none) }
+        if changeQuantityView.isHidden == false { changeQuantityView.configureView(for: item, at: indexPath, with: false) }
     }
     
     
-    func didTapMinusOne(for item: Item, in section: Int?, at row: Int?)
+    func didTapMinusOne(for item: Item, at indexPath: IndexPath?)
     {
-        guard let section = section, let row = row else { fatalError("Section and row should never be nil!") }
+        guard let indexPath = indexPath else { fatalError("IndexPath should never be nil!") }
         let allowed = item.didTapMinusOne()
-        let indexPath = IndexPath(row: row, section: section)
         if allowed { departmentTableView.reloadRows(at: [indexPath], with: .fade) }
-        else { departmentTableView.reloadRows(at: [indexPath], with: .left) }
+        if let path = selectedIndexPath { departmentTableView.selectRow(at: path, animated: true, scrollPosition: .none) }
+        if changeQuantityView.isHidden == false { changeQuantityView.configureView(for: item, at: indexPath, with: false) }
     }
     
     
-    func didTapFavourite(for item: Item, in section: Int?, at row: Int?)
+    func didTapFavourite(for item: Item, at indexPath: IndexPath?)
     {
-        guard let section = section, let row = row else { fatalError("Section and row should never be nil!") }
+        guard let indexPath = indexPath else { fatalError("IndexPath should never be nil!") }
         item.didTapFavourite()
-        let indexPath = IndexPath(row: row, section: section)
         departmentTableView.reloadRows(at: [indexPath], with: .fade)
-    }
-    
-    
-    func didTapOnQuantityLabel(for item: Item, in section: Int?, at row: Int?)
-    {
-        guard let section = section, let row = row else { fatalError("Section and row should never be nil!") }
-        
-        let alert = UIAlertController(title: "Change Quantity", message: "Input the new quantity for item: \(item.shortName)", preferredStyle: .alert)
-        let currentQuantity = "Currently at: \(item.quantity)"
-        
-        alert.addTextField
-        { (textField) in
-            textField.placeholder = currentQuantity
-            textField.keyboardType = .asciiCapableNumberPad
-            textField.tag = 999
-        }
-        
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler:{ [weak alert, weak self, weak item] (_) in
-            guard let self = self, let item = item, let alert = alert else { alert?.dismiss(animated: true); return }
-            guard let textField = alert.textFields?[0] else { alert.dismiss(animated: true); return }
-            guard let quantity = Int(textField.text!) else { alert.dismiss(animated: true); return }
-            
-            item.changeQuantity(to: quantity)
-            let indexPath = IndexPath(row: row, section: section)
-            self.departmentTableView.reloadRows(at: [indexPath], with: .fade)
-        }))
-        
-        alert.addAction(UIAlertAction(title: "Cancel", style: .destructive, handler:{ [weak alert] (_) in
-            alert?.dismiss(animated: true)
-        }))
-        
-        self.present(alert, animated: true)
     }
     
 }

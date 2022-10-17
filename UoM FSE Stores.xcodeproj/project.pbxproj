@@ -7,11 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7F08E12728FDDD8D0093A8DC /* ChangeQuantityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F08E12628FDDD8D0093A8DC /* ChangeQuantityView.swift */; };
+		7F08E12928FDE1820093A8DC /* AboveKeyboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F08E12828FDE1820093A8DC /* AboveKeyboardView.swift */; };
+		7F08E12B28FDE6BC0093A8DC /* UITextFieldExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F08E12A28FDE6BC0093A8DC /* UITextFieldExtensions.swift */; };
+		7F08E12D28FE037B0093A8DC /* Chem_Database.json in Resources */ = {isa = PBXBuildFile; fileRef = 7F08E12C28FE037B0093A8DC /* Chem_Database.json */; };
 		7F43297128FCA41500354DB0 /* SearchResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F43297028FCA41500354DB0 /* SearchResultsView.swift */; };
 		7F43297328FCA4CB00354DB0 /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F43297228FCA4CB00354DB0 /* UIViewExtensions.swift */; };
 		7F90B24428F74E0A00047012 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7F90B24328F74E0A00047012 /* Assets.xcassets */; };
 		7F90B24728F74E0A00047012 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7F90B24528F74E0A00047012 /* LaunchScreen.storyboard */; };
-		7F90B25628F74EAF00047012 /* Chem_Database.json in Resources */ = {isa = PBXBuildFile; fileRef = 7F90B25328F74EAF00047012 /* Chem_Database.json */; };
+		7F90B25628F74EAF00047012 /* Chem_Database_old.json in Resources */ = {isa = PBXBuildFile; fileRef = 7F90B25328F74EAF00047012 /* Chem_Database_old.json */; };
 		7F90B25728F74EAF00047012 /* MainVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F90B25428F74EAF00047012 /* MainVC.swift */; };
 		7F90B25828F74EAF00047012 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F90B25528F74EAF00047012 /* AppDelegate.swift */; };
 		7F90B25C28F74EE400047012 /* BasketVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F90B25B28F74EE400047012 /* BasketVC.swift */; };
@@ -32,13 +36,17 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7F08E12628FDDD8D0093A8DC /* ChangeQuantityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeQuantityView.swift; sourceTree = "<group>"; };
+		7F08E12828FDE1820093A8DC /* AboveKeyboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboveKeyboardView.swift; sourceTree = "<group>"; };
+		7F08E12A28FDE6BC0093A8DC /* UITextFieldExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextFieldExtensions.swift; sourceTree = "<group>"; };
+		7F08E12C28FE037B0093A8DC /* Chem_Database.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Chem_Database.json; sourceTree = "<group>"; };
 		7F43297028FCA41500354DB0 /* SearchResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsView.swift; sourceTree = "<group>"; };
 		7F43297228FCA4CB00354DB0 /* UIViewExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewExtensions.swift; sourceTree = "<group>"; };
 		7F90B23728F74E0900047012 /* UoM FSE Stores.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "UoM FSE Stores.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7F90B24328F74E0A00047012 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7F90B24628F74E0A00047012 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7F90B24828F74E0A00047012 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		7F90B25328F74EAF00047012 /* Chem_Database.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Chem_Database.json; sourceTree = "<group>"; };
+		7F90B25328F74EAF00047012 /* Chem_Database_old.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Chem_Database_old.json; sourceTree = "<group>"; };
 		7F90B25428F74EAF00047012 /* MainVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainVC.swift; sourceTree = "<group>"; };
 		7F90B25528F74EAF00047012 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7F90B25B28F74EE400047012 /* BasketVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasketVC.swift; sourceTree = "<group>"; };
@@ -123,7 +131,9 @@
 			children = (
 				7F90B26728F74F1500047012 /* CatalogueVC.swift */,
 				7F90B26828F74F1500047012 /* DepartmentVC.swift */,
+				7F08E12828FDE1820093A8DC /* AboveKeyboardView.swift */,
 				7F43297028FCA41500354DB0 /* SearchResultsView.swift */,
+				7F08E12628FDDD8D0093A8DC /* ChangeQuantityView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -153,7 +163,8 @@
 		7F90B25928F74EBD00047012 /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				7F90B25328F74EAF00047012 /* Chem_Database.json */,
+				7F08E12C28FE037B0093A8DC /* Chem_Database.json */,
+				7F90B25328F74EAF00047012 /* Chem_Database_old.json */,
 				7F90B26D28F74F2900047012 /* Utils */,
 			);
 			name = Data;
@@ -173,6 +184,7 @@
 				7F43297228FCA4CB00354DB0 /* UIViewExtensions.swift */,
 				7F90B26E28F74F3500047012 /* UIResponderExtension.swift */,
 				7F90B26F28F74F3500047012 /* UIViewControllerExtensions.swift */,
+				7F08E12A28FDE6BC0093A8DC /* UITextFieldExtensions.swift */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -245,7 +257,8 @@
 			files = (
 				7F90B24728F74E0A00047012 /* LaunchScreen.storyboard in Resources */,
 				7F90B24428F74E0A00047012 /* Assets.xcassets in Resources */,
-				7F90B25628F74EAF00047012 /* Chem_Database.json in Resources */,
+				7F90B25628F74EAF00047012 /* Chem_Database_old.json in Resources */,
+				7F08E12D28FE037B0093A8DC /* Chem_Database.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -265,12 +278,15 @@
 				7F90B25728F74EAF00047012 /* MainVC.swift in Sources */,
 				7F90B26A28F74F1500047012 /* DepartmentVC.swift in Sources */,
 				7F90B26528F74EF700047012 /* Item.swift in Sources */,
+				7F08E12728FDDD8D0093A8DC /* ChangeQuantityView.swift in Sources */,
 				7F90B26228F74EF700047012 /* Category.swift in Sources */,
 				7F90B26428F74EF700047012 /* Department.swift in Sources */,
 				7F90B26928F74F1500047012 /* CatalogueVC.swift in Sources */,
 				7F90B26C28F74F1D00047012 /* DepartmentCell.swift in Sources */,
 				7F90B27028F74F3500047012 /* UIResponderExtension.swift in Sources */,
+				7F08E12928FDE1820093A8DC /* AboveKeyboardView.swift in Sources */,
 				7F43297328FCA4CB00354DB0 /* UIViewExtensions.swift in Sources */,
+				7F08E12B28FDE6BC0093A8DC /* UITextFieldExtensions.swift in Sources */,
 				7F90B26628F74EF700047012 /* Catalogue.swift in Sources */,
 				7F90B27528F7561100047012 /* ItemCell.swift in Sources */,
 			);

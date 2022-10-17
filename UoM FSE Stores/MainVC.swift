@@ -63,18 +63,22 @@ extension MainVC
         
         let basketNC = UINavigationController(rootViewController: basketVC)
         hideNavigationBarLine(basketNC.navigationBar)
+        basketNC.navigationBar.tintColor = .systemPurple
         
         
         let catalogueNC = UINavigationController(rootViewController: catalogueVC)
         hideNavigationBarLine(catalogueNC.navigationBar)
+        catalogueNC.navigationBar.tintColor = .systemPurple
         
         
         let orderNC = UINavigationController(rootViewController: orderVC)
         hideNavigationBarLine(orderNC.navigationBar)
+        orderNC.navigationBar.tintColor = .systemPurple
         
         
         let aboutNC = UINavigationController(rootViewController: aboutVC)
         hideNavigationBarLine(aboutNC.navigationBar)
+        aboutNC.navigationBar.tintColor = .systemPurple
         
         
         

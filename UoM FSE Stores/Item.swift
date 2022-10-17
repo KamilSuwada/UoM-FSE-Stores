@@ -67,7 +67,7 @@ class Item: Codable
     // formatted list price returns price of the selection as e.g. 12.53
     public var formattedListPrice: String
     {
-        return String(format: "%.2f", self.price)
+        return String(format: "£%.2f", self.price)
     }
     
     

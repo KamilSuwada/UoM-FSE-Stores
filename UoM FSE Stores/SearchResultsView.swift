@@ -7,13 +7,14 @@
 
 import UIKit
 
+
 protocol SearchResultsViewDelegate: AnyObject
 {
     func switchDidChangeValue(to newValue: Bool)
 }
 
 
-class SearchResultsView: UIView
+class SearchResultsView: AboveKeyboardView
 {
     //MARK: - Properties:
     
@@ -79,33 +80,17 @@ class SearchResultsView: UIView
     }()
     
     
-    //MARK: - INITs:
+// MARK: - Setup:
     
     
-    override init(frame: CGRect)
+    override func setup()
     {
-        super.init(frame: frame)
-        self.setup()
-    }
-    
-    
-    override func layoutSubviews()
-    {
-        super.layoutSubviews()
-        layer.cornerRadius = 10
-    }
-    
-    
-    required init?(coder: NSCoder)
-    {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?)
-    {
-        guard traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) else { return }
-        self.appearance = traitCollection.userInterfaceStyle
+        super.setup()
+        setupView()
+        setupResultsLabel()
+        setupMainStackView()
+        setupLabels()
+        setupToggleSwitch()
     }
 
 }
@@ -113,19 +98,9 @@ class SearchResultsView: UIView
 
 
 
-// MARK: setup methods:
+// MARK: - Setup methods:
 extension SearchResultsView
 {
-    
-    private func setup()
-    {
-        setupView()
-        setupResultsLabel()
-        setupMainStackView()
-        setupLabels()
-        setupToggleSwitch()
-    }
-    
     
     private func setupView()
     {
@@ -182,7 +157,7 @@ extension SearchResultsView
 
 
 
-// MARK: - Functions()
+// MARK: - Functions:
 extension SearchResultsView
 {
     

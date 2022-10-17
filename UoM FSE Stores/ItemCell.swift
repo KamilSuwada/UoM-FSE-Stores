@@ -10,10 +10,9 @@ import UIKit
 
 protocol ItemCellDelegate: AnyObject
 {
-    func didTapPlusOne(for item: Item, in section: Int?, at row: Int?)
-    func didTapMinusOne(for item: Item, in section: Int?, at row: Int?)
-    func didTapFavourite(for item: Item, in section: Int?, at row: Int?)
-    func didTapOnQuantityLabel(for item: Item, in section: Int?, at row: Int?)
+    func didTapPlusOne(for item: Item, at indexPath: IndexPath?)
+    func didTapMinusOne(for item: Item, at indexPath: IndexPath?)
+    func didTapFavourite(for item: Item, at indexPath: IndexPath?)
 }
 
 
@@ -30,12 +29,8 @@ class ItemCell: UITableViewCell
     private var item: Item?
     
     
-    /// Index of the section the item lives at.
-    private var section: Int?
-    
-    
-    /// Index of the row the item lives at.
-    private var row: Int?
+    /// IndexPath of the item.
+    private var indexPath: IndexPath?
     
     
     /// Reuse ID of the DepartmentCell.
@@ -116,7 +111,7 @@ class ItemCell: UITableViewCell
     {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .preferredFont(forTextStyle: .body)
+        label.font = .systemFont(ofSize: 18, weight: .regular)
         label.numberOfLines = 0
         label.textAlignment = .right
         return label
@@ -128,7 +123,7 @@ class ItemCell: UITableViewCell
     {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .preferredFont(forTextStyle: .body)
+        label.font = .systemFont(ofSize: 18, weight: .regular)
         label.numberOfLines = 1
         label.textAlignment = .center
         return label
@@ -140,7 +135,7 @@ class ItemCell: UITableViewCell
     {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .preferredFont(forTextStyle: .body)
+        label.font = .systemFont(ofSize: 18, weight: .regular)
         label.numberOfLines = 1
         label.textAlignment = .center
         return label
@@ -152,7 +147,7 @@ class ItemCell: UITableViewCell
     {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .preferredFont(forTextStyle: .body)
+        label.font = .systemFont(ofSize: 18, weight: .regular)
         label.numberOfLines = 1
         label.textAlignment = .center
         return label
@@ -171,8 +166,8 @@ class ItemCell: UITableViewCell
         button.contentMode = .scaleAspectFill
         button.contentHorizontalAlignment = .fill
         button.contentVerticalAlignment = .fill
-        button.heightAnchor.constraint(equalToConstant: 25).isActive = true
-        button.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        button.heightAnchor.constraint(equalToConstant: 37.5).isActive = true
+        button.widthAnchor.constraint(equalToConstant: 45).isActive = true
         return button
     }()
     
@@ -182,8 +177,13 @@ class ItemCell: UITableViewCell
     {
         let button = UIButton(type: .custom)
         button.translatesAutoresizingMaskIntoConstraints = false
-        let minus = UIImage(systemName: "minus")!.withTintColor(.label, renderingMode: .alwaysOriginal)
+        let minus = UIImage(systemName: "minus.circle")!.withTintColor(.label, renderingMode: .alwaysOriginal)
         button.setImage(minus, for: .normal)
+        button.contentVerticalAlignment = .fill
+        button.contentHorizontalAlignment = .fill
+        button.imageView!.contentMode = .scaleAspectFill
+        button.widthAnchor.constraint(equalTo: button.heightAnchor).isActive = true
+        button.heightAnchor.constraint(equalToConstant: 37.5).isActive = true
         return button
     }()
     
@@ -193,7 +193,7 @@ class ItemCell: UITableViewCell
     {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .preferredFont(forTextStyle: .body)
+        label.font = .systemFont(ofSize: 35, weight: .regular)
         label.text = "0"
         label.numberOfLines = 1
         label.textAlignment = .center
@@ -206,8 +206,14 @@ class ItemCell: UITableViewCell
     {
         let button = UIButton(type: .custom)
         button.translatesAutoresizingMaskIntoConstraints = false
-        let plus = UIImage(systemName: "plus")!.withTintColor(.label, renderingMode: .alwaysOriginal)
+        let plus = UIImage(systemName: "plus.circle")!.withTintColor(.label, renderingMode: .alwaysOriginal)
         button.setImage(plus, for: .normal)
+        button.contentVerticalAlignment = .fill
+        button.contentHorizontalAlignment = .fill
+        button.imageView!.contentMode = .scaleAspectFill
+        button.backgroundColor = .clear
+        button.widthAnchor.constraint(equalTo: button.heightAnchor).isActive = true
+        button.heightAnchor.constraint(equalToConstant: 37.5).isActive = true
         return button
     }()
     
@@ -231,21 +237,12 @@ class ItemCell: UITableViewCell
     
     private func setup()
     {
-        setupTap()
         setupButtons()
         setupMainStackView()
         setupSecondaryStackViews()
         setupTopStackView()
         setupMiddleStackView()
         setupBottomStackView()
-    }
-    
-    
-    private func setupTap()
-    {
-        let tap = UITapGestureRecognizer(target: self, action: #selector(didTapOnQuantityLabel))
-        itemQuantityLabel.isUserInteractionEnabled = true
-        itemQuantityLabel.addGestureRecognizer(tap)
     }
     
     
@@ -350,7 +347,7 @@ class ItemCell: UITableViewCell
     {
         guard let i = self.item else { fatalError("ItemCell should have an associated item!") }
         guard let d = delegate else { fatalError("ItemCell should have a delegate!") }
-        d.didTapFavourite(for: i, in: section, at: row)
+        d.didTapFavourite(for: i, at: self.indexPath!)
     }
     
     
@@ -358,7 +355,7 @@ class ItemCell: UITableViewCell
     {
         guard let i = self.item else { fatalError("ItemCell should have an associated item!") }
         guard let d = delegate else { fatalError("ItemCell should have a delegate!") }
-        d.didTapPlusOne(for: i, in: section, at: row)
+        d.didTapPlusOne(for: i, at: self.indexPath!)
     }
     
     
@@ -366,28 +363,19 @@ class ItemCell: UITableViewCell
     {
         guard let i = self.item else { fatalError("ItemCell should have an associated item!") }
         guard let d = delegate else { fatalError("ItemCell should have a delegate!") }
-        d.didTapMinusOne(for: i, in: section, at: row)
-    }
-    
-    
-    @objc private func didTapOnQuantityLabel(_ sender: UITapGestureRecognizer)
-    {
-        guard let i = self.item else { fatalError("ItemCell should have an associated item!") }
-        guard let d = delegate else { fatalError("ItemCell should have a delegate!") }
-        d.didTapOnQuantityLabel(for: i, in: section, at: row)
+        d.didTapMinusOne(for: i, at: self.indexPath!)
     }
     
     
     // MARK: - CONFIGURE:
     
     
-    public func configure(with item: Item, in section: Int, at row: Int)
+    public func configure(with item: Item, at indexPath: IndexPath)
     {
         self.item = item
-        self.section = section
-        self.row = row
+        self.indexPath = indexPath
         self.itemNameLabel.text = item.name
-        self.itemImageView.image = UIImage(systemName: "star")
+        self.itemImageView.image = UIImage(systemName: "circle")
         self.itemCodeLabel.text = item.code
         self.itemPriceLabel.text = item.formattedListPrice
         self.itemUnitIssueLabel.text = item.unitIssue
@@ -403,8 +391,7 @@ class ItemCell: UITableViewCell
     {
         super.prepareForReuse()
         self.delegate = nil
-        self.section = nil
-        self.row = nil
+        self.indexPath = nil
         self.itemNameLabel.text = nil
         self.itemImageView.image = nil
         self.itemCodeLabel.text = nil
