@@ -269,7 +269,12 @@ extension DepartmentVC: UISearchResultsUpdating
             }
         }
         
-        searchResultsView.setTextOnFoundLabel("Found: \(searchResults.count)")
+        let resultsFound = String(searchResults.count)
+        var foundString = "Found: "
+        for _ in 0..<(4 - resultsFound.count) { foundString += " " }
+        foundString += resultsFound
+        
+        searchResultsView.setTextOnFoundLabel(foundString)
         isSearching = true
     }
     

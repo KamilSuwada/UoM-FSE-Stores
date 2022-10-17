@@ -47,8 +47,9 @@ class SearchResultsView: UIView
         label.font = .preferredFont(forTextStyle: .body)
         label.textColor = .white
         label.numberOfLines = 1
-        label.textAlignment = .center
-        label.text = "Found: XX"
+        label.textAlignment = .left
+        label.text = "Found: XXXX"
+        label.widthAnchor.constraint(equalToConstant: 100).isActive = true
         return label
     }()
     
@@ -61,8 +62,8 @@ class SearchResultsView: UIView
         label.font = .preferredFont(forTextStyle: .body)
         label.textColor = .white
         label.numberOfLines = 1
-        label.textAlignment = .center
-        label.text = "Search all FSE?"
+        label.textAlignment = .left
+        label.text = "Search all FSE:"
         return label
     }()
     
@@ -119,6 +120,7 @@ extension SearchResultsView
     private func setup()
     {
         setupView()
+        setupResultsLabel()
         setupMainStackView()
         setupLabels()
         setupToggleSwitch()
@@ -131,13 +133,25 @@ extension SearchResultsView
     }
     
     
+    private func setupResultsLabel()
+    {
+        addSubview(itemsFoundLabel)
+        
+        NSLayoutConstraint.activate([
+            itemsFoundLabel.topAnchor.constraint(equalTo: topAnchor),
+            itemsFoundLabel.leadingAnchor.constraint(equalToSystemSpacingAfter: leadingAnchor, multiplier: 3),
+            itemsFoundLabel.bottomAnchor.constraint(equalTo: bottomAnchor)
+        ])
+    }
+    
+    
     private func setupMainStackView()
     {
         addSubview(mainStackView)
         
         NSLayoutConstraint.activate([
             mainStackView.topAnchor.constraint(equalTo: topAnchor),
-            mainStackView.leadingAnchor.constraint(equalToSystemSpacingAfter: leadingAnchor, multiplier: 3),
+            mainStackView.leadingAnchor.constraint(equalToSystemSpacingAfter: itemsFoundLabel.trailingAnchor, multiplier: 1),
             trailingAnchor.constraint(equalToSystemSpacingAfter: mainStackView.trailingAnchor, multiplier: 3),
             mainStackView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
@@ -146,7 +160,6 @@ extension SearchResultsView
     
     private func setupLabels()
     {
-        mainStackView.addArrangedSubview(itemsFoundLabel)
         mainStackView.addArrangedSubview(otherStoresLabel)
     }
     
