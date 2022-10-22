@@ -98,6 +98,7 @@
 			children = (
 				7F90B25528F74EAF00047012 /* AppDelegate.swift */,
 				7F90B25428F74EAF00047012 /* MainVC.swift */,
+				7F90B25228F74E8F00047012 /* Data Model */,
 				7F90B24F28F74E7E00047012 /* Catalogue */,
 				7F90B25A28F74ED500047012 /* Basket */,
 				7F90B25928F74EBD00047012 /* Data */,
@@ -121,7 +122,6 @@
 			children = (
 				7F90B25028F74E8600047012 /* Views */,
 				7F90B25128F74E8A00047012 /* Cells */,
-				7F90B25228F74E8F00047012 /* Data Model */,
 			);
 			name = Catalogue;
 			sourceTree = "<group>";
@@ -151,8 +151,8 @@
 		7F90B25228F74E8F00047012 /* Data Model */ = {
 			isa = PBXGroup;
 			children = (
-				7F90B25E28F74EF700047012 /* CatalogueManager.swift */,
 				7F90B26128F74EF700047012 /* Catalogue.swift */,
+				7F90B25E28F74EF700047012 /* CatalogueManager.swift */,
 				7F90B25F28F74EF700047012 /* Department.swift */,
 				7F90B25D28F74EF700047012 /* Category.swift */,
 				7F90B26028F74EF700047012 /* Item.swift */,

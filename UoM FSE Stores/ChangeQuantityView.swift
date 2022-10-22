@@ -5,7 +5,7 @@
 //  Created by Kamil Suwada on 17/10/2022.
 //
 
-import UIKit
+import UIKit; import RealmSwift
 
 
 protocol ChangeQuantityViewDelegate: AnyObject
@@ -18,6 +18,9 @@ protocol ChangeQuantityViewDelegate: AnyObject
 class ChangeQuantityView: AboveKeyboardView
 {
     //MARK: - Properties:
+    
+    
+    let realm = try! Realm()
     
     
     /// Style of the users interface.
@@ -241,7 +244,8 @@ extension ChangeQuantityView
         guard let d = delegate else { fatalError("ChangeQuantityView does not have a delegate!") }
         guard let i = item else { fatalError("ChangeQuantityView does not have an associated item! Configure view before it is shown!") }
         guard let IP = indexPath else { fatalError("ChangeQuantityView should have an asociated index path for the item!") }
-        i.changeQuantity(to: 0)
+        do { try realm.write { i.changeQuantity(to: 0) } }
+        catch { print(error.localizedDescription) }
         d.dataOfItemDidChange(at: IP)
         resign()
         viewWillHide()
@@ -255,7 +259,8 @@ extension ChangeQuantityView
             guard let d = delegate else { fatalError("ChangeQuantityView does not have a delegate!") }
             guard let i = item else { fatalError("ChangeQuantityView does not have an associated item! Configure view before it is shown!") }
             guard let IP = indexPath else { fatalError("ChangeQuantityView should have an asociated index path for the item!") }
-            i.changeQuantity(to: quantity)
+            do { try realm.write { i.changeQuantity(to: quantity) } }
+            catch { print(error.localizedDescription) }
             d.dataOfItemDidChange(at: IP)
         }
         

@@ -5,33 +5,54 @@
 //  Created by Kamil Suwada on 06/10/2022.
 //
 
-import UIKit
+import UIKit; import RealmSwift
 
 
 
 
-class Department
+class Department: Object
 {
-    // MARK: - PROPERTIES:
+// MARK: - PROPERTIES:
     
     
-    let name: String
+    @objc dynamic var name: String = ""
     
     
-    let imageName: String
+    @objc dynamic var imageName: String = ""
     
     
-    var departmentCatalogue: Array<Category>
+    var departmentCatalogue: List<Category> = List<Category>()
     
     
-    // MARK: INIT:
+    @objc dynamic var storeType: String = ""
     
     
-    init(name: String, imageName: String, departmentCatalogue: Array<Category>)
+    enum StoreType: String
     {
+        case chemistry = "chemistry"
+        case physics = "physics"
+        case MIB = "MIB"
+        case None = "NONE"
+    }
+    
+    
+// MARK: - INIT:
+    
+    
+    convenience init(name: String, imageName: String, departmentCatalogue: Array<JSONCategory>, store type: StoreType)
+    {
+        self.init()
         self.name = name
         self.imageName = imageName
-        self.departmentCatalogue = departmentCatalogue
+        self.storeType = type.rawValue
+        let deptCatList = List<Category>()
+        for category in departmentCatalogue
+        {
+            let realmCategory = Category(from: category)
+            deptCatList.append(realmCategory)
+        }
+        self.departmentCatalogue = deptCatList
+        print("INIT WAS CALLED")
     }
     
     

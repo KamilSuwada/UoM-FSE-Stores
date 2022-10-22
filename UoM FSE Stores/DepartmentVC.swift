@@ -424,7 +424,8 @@ extension DepartmentVC: UITableViewDelegate, UITableViewDataSource
             if indexPath.row == 0
             {
                 tableView.deselectRow(at: indexPath, animated: true)
-                department.didTapOnSection(indexPath.section)
+                do { try realm.write { department.didTapOnSection(indexPath.section) } }
+                catch { print(error.localizedDescription) }
                 tableView.reloadSections([indexPath.section], with: .fade)
             }
             else
@@ -477,7 +478,8 @@ extension DepartmentVC: ItemCellDelegate
     func didTapPlusOne(for item: Item, at indexPath: IndexPath?)
     {
         guard let indexPath = indexPath else { fatalError("IndexPath should never be nil!") }
-        item.didTapPlusOne()
+        do { try realm.write { item.didTapPlusOne() } }
+        catch { print(error.localizedDescription) }
         departmentTableView.reloadRows(at: [indexPath], with: .fade)
         if let path = selectedIndexPath { departmentTableView.selectRow(at: path, animated: true, scrollPosition: .none) }
         if changeQuantityView.isHidden == false { changeQuantityView.configureView(for: item, at: indexPath, with: false) }
@@ -487,7 +489,9 @@ extension DepartmentVC: ItemCellDelegate
     func didTapMinusOne(for item: Item, at indexPath: IndexPath?)
     {
         guard let indexPath = indexPath else { fatalError("IndexPath should never be nil!") }
-        let allowed = item.didTapMinusOne()
+        let allowed = item.willTapMinusOne()
+        do { try realm.write { item.didTapMinusOne() } }
+        catch { print(error.localizedDescription) }
         if allowed { departmentTableView.reloadRows(at: [indexPath], with: .fade) }
         if let path = selectedIndexPath { departmentTableView.selectRow(at: path, animated: true, scrollPosition: .none) }
         if changeQuantityView.isHidden == false { changeQuantityView.configureView(for: item, at: indexPath, with: false) }
@@ -497,7 +501,8 @@ extension DepartmentVC: ItemCellDelegate
     func didTapFavourite(for item: Item, at indexPath: IndexPath?)
     {
         guard let indexPath = indexPath else { fatalError("IndexPath should never be nil!") }
-        item.didTapFavourite()
+        do { try realm.write { item.didTapFavourite() } }
+        catch { print(error.localizedDescription) }
         departmentTableView.reloadRows(at: [indexPath], with: .fade)
     }
     

@@ -5,7 +5,7 @@
 //  Created by Kamil Suwada on 04/10/2022.
 //
 
-import Foundation
+import Foundation; import RealmSwift
 
 
 
@@ -20,16 +20,35 @@ class Catalogue
     
     
     /// All departments and their stores options.
-    public var departments = Array<Department>()
+    public var departments = List<Department>()
     
     
     init()
     {
-        let chem = catalogueManager.createChemistryCatalogue()
-        guard let chemStores = chem else { fatalError("DID NOT READ THE CHEMISTRY DATABASE!") }
-        let chemDept = Department(name: "Chemistry", imageName: "folder.fill", departmentCatalogue: chemStores)
-        self.departments.append(chemDept)
-        print("chemistry: \(chemDept.departmentCatalogue.count) categories.")
+        
+        // Chemistry:
+        if let chemDept = catalogueManager.chemistryDepartment
+        {
+            self.departments.append(chemDept)
+        }
+        else
+        {
+            let chem = catalogueManager.createChemistryCatalogue()
+            guard let chemStores = chem else { fatalError("DID NOT READ THE CHEMISTRY DATABASE!") }
+            let chemDept = Department(name: "Chemistry", imageName: "folder.fill", departmentCatalogue: chemStores, store: .chemistry)
+            catalogueManager.writeDepartment(chemDept)
+            self.departments.append(chemDept)
+        }
+        
+        
+        
+        
+        // Physics:
+        
+        
+        
+        // MIB:
+        
     }
     
     

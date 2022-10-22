@@ -5,7 +5,7 @@
 //  Created by Kamil Suwada on 04/10/2022.
 //
 
-import UIKit
+import UIKit; import RealmSwift
 
 
 
@@ -31,7 +31,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate
     {
         configureWindow()
         window?.rootViewController = VC
-        
         return true
     }
     

@@ -5,44 +5,47 @@
 //  Created by Kamil Suwada on 04/10/2022.
 //
 
-import Foundation
+import Foundation; import RealmSwift
 
 
 
 
-class Item: Codable
+class Item: Object
 {
     //MARK: - PROPERTIES:
     
-    var id: String
-    var name: String
-    var code: String
-    var unitIssue: String
-    var price: Double
-    var quantity: Int
-    var isFavourite: Bool
-    var isPPE: Bool
-    var isWaste: Bool
-    var keywords: [String]
-    var imageName: String
+    @objc dynamic var id: String = ""
+    @objc dynamic var name: String = ""
+    @objc dynamic var code: String = ""
+    @objc dynamic var unitIssue: String = ""
+    @objc dynamic var price: Double = 0.00
+    @objc dynamic var quantity: Int = 0
+    @objc dynamic var isFavourite: Bool = false
+    @objc dynamic var isPPE: Bool = false
+    @objc dynamic var isWaste: Bool = false
+    var keywords: Array<String> = Array<String>()
+    @objc dynamic var imageName: String = ""
+    
+    var parentCategory = LinkingObjects(fromType: Category.self, property: "items")
     
     
     // MARK: - INIT:
     
     
-    init(id: String, name: String, code: String, unitIssue: String, price: Double, quantity: Int, isFavourite: Bool, isPPE: Bool, isWaste: Bool, keywords: Array<String>, imageName: String)
+    convenience init(from item: JSONItem)
     {
-        self.id = id
-        self.name = name
-        self.code = code
-        self.unitIssue = unitIssue
-        self.price = price
-        self.quantity = quantity
-        self.isFavourite = isFavourite
-        self.isPPE = isPPE
-        self.isWaste = isWaste
-        self.keywords = keywords
-        self.imageName = imageName
+        self.init()
+        self.id = item.id
+        self.name = item.name
+        self.code = item.code
+        self.unitIssue = item.unitIssue
+        self.price = item.price
+        self.quantity = item.quantity
+        self.isFavourite = item.isFavourite
+        self.isPPE = item.isPPE
+        self.isWaste = item.isWaste
+        self.keywords = item.keywords
+        self.imageName = item.imageName
     }
     
     
@@ -97,15 +100,17 @@ class Item: Codable
     
     
     // method for decreasing the quantity by 1. Only called when quantity is greater than zero: we will not order -1 bottles of DCM.
-    public func didTapMinusOne() -> Bool
+    public func didTapMinusOne()
     {
-        if (self.quantity > 0)
-        {
-            self.quantity -= 1
-            return true
-        }
-        
-        return false
+        if (self.quantity > 0) { self.quantity -= 1 }
+    }
+    
+    
+    // method called before calling didTapMinusOne. Will determine if the operation is allowed, for UI updates.
+    public func willTapMinusOne() -> Bool
+    {
+        if (self.quantity > 0) { return true }
+        else { return false }
     }
     
     
@@ -134,3 +139,41 @@ class Item: Codable
 }
 
 
+
+
+class JSONItem: Codable
+{
+    //MARK: - PROPERTIES:
+    
+    var id: String
+    var name: String
+    var code: String
+    var unitIssue: String
+    var price: Double
+    var quantity: Int
+    var isFavourite: Bool
+    var isPPE: Bool
+    var isWaste: Bool
+    var keywords: [String]
+    var imageName: String
+    
+    
+    // MARK: - INIT:
+    
+    
+    init(id: String, name: String, code: String, unitIssue: String, price: Double, quantity: Int, isFavourite: Bool, isPPE: Bool, isWaste: Bool, keywords: Array<String>, imageName: String)
+    {
+        self.id = id
+        self.name = name
+        self.code = code
+        self.unitIssue = unitIssue
+        self.price = price
+        self.quantity = quantity
+        self.isFavourite = isFavourite
+        self.isPPE = isPPE
+        self.isWaste = isWaste
+        self.keywords = keywords
+        self.imageName = imageName
+    }
+    
+}

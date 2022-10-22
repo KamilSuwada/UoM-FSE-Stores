@@ -5,7 +5,7 @@
 //  Created by Kamil Suwada on 04/10/2022.
 //
 
-import UIKit
+import UIKit; import RealmSwift
 
 
 
@@ -13,6 +13,9 @@ import UIKit
 class BasketVC: UIViewController
 {
     // MARK: - UI PROPERTIES:
+    
+    
+    let realm = try! Realm()
     
     
     // Data catalogue.
@@ -42,7 +45,7 @@ class BasketVC: UIViewController
     
     private var basket: Array<String>
     {
-        get { return Array<String>() }
+        get { return Array<String>() } // temp...
     }
     
     
