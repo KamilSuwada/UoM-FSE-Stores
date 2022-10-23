@@ -97,7 +97,10 @@ class DepartmentVC: UIViewController
     /// Bool indicating if the user is searching...
     private var isSearching: Bool = false
     {
-        didSet { departmentTableView.reloadData() }
+        didSet
+        {
+            departmentTableView.reloadData()
+        }
     }
     
     
@@ -167,6 +170,7 @@ extension DepartmentVC
         navigationItem.searchController = searchController
         definesPresentationContext = true
         searchController.searchResultsUpdater = self
+        searchController.delegate = self
     }
     
     
@@ -183,6 +187,18 @@ extension DepartmentVC
         { (notification) in
             self.handleKeyboard(notification: notification)
         }
+    
+    }
+    
+    
+    private func hideKeyboardViews()
+    {
+        searchResultsViewBottomConstraint?.constant = 0
+        departmentTableViewBottomConstraint?.constant = 0
+        searchResultsView.alpha = 0
+        changeQuantityViewBottomConstraint?.constant = 0
+        changeQuantityView.alpha = 0
+        view.layoutIfNeeded()
     }
     
     
@@ -190,15 +206,13 @@ extension DepartmentVC
     {
         guard notification.name == UIResponder.keyboardWillChangeFrameNotification else
         {
-            searchResultsViewBottomConstraint?.constant = 0
-            departmentTableViewBottomConstraint?.constant = 0
-            searchResultsView.alpha = 0
-            changeQuantityViewBottomConstraint?.constant = 0
-            changeQuantityView.alpha = 0
-            view.layoutIfNeeded()
+            self.hideKeyboardViews()
             return
         }
+        
         guard let info = notification.userInfo, let keyboardFrame = info[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue, let tabBarHeight = self.tabBarController?.tabBar.frame.size.height else { return }
+        
+        hideKeyboardViews()
         
         if let responder = UIResponder.currentFirst() as? UITextField
         {
@@ -313,8 +327,16 @@ extension DepartmentVC: SearchResultsViewDelegate, ChangeQuantityViewDelegate
 
 
 // MARK: - SearchBar Delegate:
-extension DepartmentVC: UISearchResultsUpdating
+extension DepartmentVC: UISearchResultsUpdating, UISearchControllerDelegate
 {
+    
+    func didDismissSearchController(_ searchController: UISearchController)
+    {
+        hideKeyboardViews()
+        searchResultsView.resignFirstResponder()
+        changeQuantityView.resign()
+    }
+    
     
     func updateSearchResults(for searchController: UISearchController)
     {
@@ -416,8 +438,20 @@ extension DepartmentVC: UITableViewDelegate, UITableViewDataSource
     {
         if isSearching
         {
-            searchController.isActive = false // Stopping the search and resigning the first responder.
-            tableView.deselectRow(at: indexPath, animated: true)
+            if selectedIndexPath == indexPath
+            {
+                tableView.deselectRow(at: indexPath, animated: true)
+                searchController.isActive = false
+                changeQuantityView.resign()
+                selectedIndexPath = nil
+            }
+            else
+            {
+                selectedIndexPath = indexPath
+                let tappedItem = searchResults[indexPath.row]
+                changeQuantityView.configureView(for: tappedItem, at: indexPath, with: true)
+                tableView.scrollToRow(at: indexPath, at: .top, animated: true)
+            }
         }
         else
         {

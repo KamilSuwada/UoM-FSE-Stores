@@ -15,10 +15,11 @@ class BasketVC: UIViewController
     // MARK: - UI PROPERTIES:
     
     
+    /// Realm instance.
     let realm = try! Realm()
     
     
-    // Data catalogue.
+    /// Data catalogue.
     private var catalogue: Catalogue!
     
     
