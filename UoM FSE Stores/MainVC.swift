@@ -10,7 +10,7 @@ import UIKit
 
 extension Notification.Name
 {
-    static let dataDidChange = Notification.Name("DataDidChange")
+    static let dataDidChange = Notification.Name("dataDidChange")
 }
 
 

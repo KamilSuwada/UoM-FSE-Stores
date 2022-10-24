@@ -512,7 +512,7 @@ extension DepartmentVC: ItemCellDelegate
     func didTapPlusOne(for item: Item, at indexPath: IndexPath?)
     {
         guard let indexPath = indexPath else { fatalError("IndexPath should never be nil!") }
-        do { try realm.write { item.didTapPlusOne() } }
+        do { try realm.write { item.didTapPlusOne() }; notifyDataDidChange() }
         catch { print(error.localizedDescription) }
         departmentTableView.reloadRows(at: [indexPath], with: .fade)
         if let path = selectedIndexPath { departmentTableView.selectRow(at: path, animated: true, scrollPosition: .none) }
@@ -523,10 +523,12 @@ extension DepartmentVC: ItemCellDelegate
     func didTapMinusOne(for item: Item, at indexPath: IndexPath?)
     {
         guard let indexPath = indexPath else { fatalError("IndexPath should never be nil!") }
-        let allowed = item.willTapMinusOne()
-        do { try realm.write { item.didTapMinusOne() } }
-        catch { print(error.localizedDescription) }
-        if allowed { departmentTableView.reloadRows(at: [indexPath], with: .fade) }
+        if item.willTapMinusOne()
+        {
+            do { try realm.write { item.didTapMinusOne() }; notifyDataDidChange() }
+            catch { print(error.localizedDescription) }
+            departmentTableView.reloadRows(at: [indexPath], with: .fade)
+        }
         if let path = selectedIndexPath { departmentTableView.selectRow(at: path, animated: true, scrollPosition: .none) }
         if changeQuantityView.isHidden == false { changeQuantityView.configureView(for: item, at: indexPath, with: false) }
     }
@@ -538,6 +540,13 @@ extension DepartmentVC: ItemCellDelegate
         do { try realm.write { item.didTapFavourite() } }
         catch { print(error.localizedDescription) }
         departmentTableView.reloadRows(at: [indexPath], with: .fade)
+    }
+    
+    
+    private func notifyDataDidChange()
+    {
+        NotificationCenter.default.post(name: .dataDidChange, object: nil)
+        print("DATA DID CHANGE NOTIFICATION POSTED BY: DepartmentVC")
     }
     
 }

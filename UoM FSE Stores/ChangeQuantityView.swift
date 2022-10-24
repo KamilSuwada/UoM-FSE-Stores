@@ -244,7 +244,7 @@ extension ChangeQuantityView
         guard let d = delegate else { fatalError("ChangeQuantityView does not have a delegate!") }
         guard let i = item else { fatalError("ChangeQuantityView does not have an associated item! Configure view before it is shown!") }
         guard let IP = indexPath else { fatalError("ChangeQuantityView should have an asociated index path for the item!") }
-        do { try realm.write { i.changeQuantity(to: 0) } }
+        do { try realm.write { i.changeQuantity(to: 0) }; notifyDataDidChange() }
         catch { print(error.localizedDescription) }
         d.dataOfItemDidChange(at: IP)
         resign()
@@ -259,13 +259,20 @@ extension ChangeQuantityView
             guard let d = delegate else { fatalError("ChangeQuantityView does not have a delegate!") }
             guard let i = item else { fatalError("ChangeQuantityView does not have an associated item! Configure view before it is shown!") }
             guard let IP = indexPath else { fatalError("ChangeQuantityView should have an asociated index path for the item!") }
-            do { try realm.write { i.changeQuantity(to: quantity) } }
+            do { try realm.write { i.changeQuantity(to: quantity) }; notifyDataDidChange() }
             catch { print(error.localizedDescription) }
             d.dataOfItemDidChange(at: IP)
         }
         
         resign()
         viewWillHide()
+    }
+    
+    
+    private func notifyDataDidChange()
+    {
+        NotificationCenter.default.post(name: .dataDidChange, object: nil)
+        print("DATA DID CHANGE NOTIFICATION POSTED BY: SearchQuantityView")
     }
     
 }
