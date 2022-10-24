@@ -33,6 +33,9 @@
 		7F90B27528F7561100047012 /* ItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F90B27428F7561100047012 /* ItemCell.swift */; };
 		7FA7816528F93513006C54C8 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 7FA7816428F93513006C54C8 /* Realm */; };
 		7FA7816728F93513006C54C8 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 7FA7816628F93513006C54C8 /* RealmSwift */; };
+		7FAB613D29072B93000A2DE2 /* OrderLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB613C29072B93000A2DE2 /* OrderLogic.swift */; };
+		7FAB613F29072C2E000A2DE2 /* PastOrder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB613E29072C2E000A2DE2 /* PastOrder.swift */; };
+		7FAB614429073BD4000A2DE2 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FAB614329073BD4000A2DE2 /* User.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -62,6 +65,9 @@
 		7F90B26F28F74F3500047012 /* UIViewControllerExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtensions.swift; sourceTree = "<group>"; };
 		7F90B27228F7531100047012 /* CategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCell.swift; sourceTree = "<group>"; };
 		7F90B27428F7561100047012 /* ItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemCell.swift; sourceTree = "<group>"; };
+		7FAB613C29072B93000A2DE2 /* OrderLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderLogic.swift; sourceTree = "<group>"; };
+		7FAB613E29072C2E000A2DE2 /* PastOrder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PastOrder.swift; sourceTree = "<group>"; };
+		7FAB614329073BD4000A2DE2 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +107,7 @@
 				7F90B25228F74E8F00047012 /* Data Model */,
 				7F90B24F28F74E7E00047012 /* Catalogue */,
 				7F90B25A28F74ED500047012 /* Basket */,
+				7FAB6140290739D0000A2DE2 /* PastOrders */,
 				7F90B25928F74EBD00047012 /* Data */,
 				7F90B24E28F74E2E00047012 /* Files */,
 			);
@@ -151,6 +158,9 @@
 		7F90B25228F74E8F00047012 /* Data Model */ = {
 			isa = PBXGroup;
 			children = (
+				7FAB613C29072B93000A2DE2 /* OrderLogic.swift */,
+				7FAB614329073BD4000A2DE2 /* User.swift */,
+				7FAB613E29072C2E000A2DE2 /* PastOrder.swift */,
 				7F90B26128F74EF700047012 /* Catalogue.swift */,
 				7F90B25E28F74EF700047012 /* CatalogueManager.swift */,
 				7F90B25F28F74EF700047012 /* Department.swift */,
@@ -195,6 +205,13 @@
 			children = (
 			);
 			name = Cells;
+			sourceTree = "<group>";
+		};
+		7FAB6140290739D0000A2DE2 /* PastOrders */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = PastOrders;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -281,6 +298,7 @@
 				7F90B25828F74EAF00047012 /* AppDelegate.swift in Sources */,
 				7F90B25C28F74EE400047012 /* BasketVC.swift in Sources */,
 				7F90B27328F7531100047012 /* CategoryCell.swift in Sources */,
+				7FAB613F29072C2E000A2DE2 /* PastOrder.swift in Sources */,
 				7F90B27128F74F3500047012 /* UIViewControllerExtensions.swift in Sources */,
 				7F43297128FCA41500354DB0 /* SearchResultsView.swift in Sources */,
 				7F90B25728F74EAF00047012 /* MainVC.swift in Sources */,
@@ -293,10 +311,12 @@
 				7F90B26C28F74F1D00047012 /* DepartmentCell.swift in Sources */,
 				7F90B27028F74F3500047012 /* UIResponderExtension.swift in Sources */,
 				7F08E12928FDE1820093A8DC /* AboveKeyboardView.swift in Sources */,
+				7FAB613D29072B93000A2DE2 /* OrderLogic.swift in Sources */,
 				7F43297328FCA4CB00354DB0 /* UIViewExtensions.swift in Sources */,
 				7F08E12B28FDE6BC0093A8DC /* UITextFieldExtensions.swift in Sources */,
 				7F90B26628F74EF700047012 /* Catalogue.swift in Sources */,
 				7F90B27528F7561100047012 /* ItemCell.swift in Sources */,
+				7FAB614429073BD4000A2DE2 /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

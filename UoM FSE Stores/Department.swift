@@ -27,7 +27,7 @@ class Department: Object
     @objc dynamic var storeType: String = ""
     
     
-    enum StoreType: String
+    enum StoreType: String, Codable
     {
         case chemistry = "chemistry"
         case physics = "physics"

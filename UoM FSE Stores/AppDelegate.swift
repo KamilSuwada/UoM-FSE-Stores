@@ -8,7 +8,6 @@
 import UIKit; import RealmSwift
 
 
-
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate
 {
