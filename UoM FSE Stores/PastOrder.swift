@@ -35,7 +35,7 @@ class PastOrder: Object
     
     
     /// ID of the order.
-    var orderID: String = UUID().uuidString
+    @objc dynamic var orderID: String = UUID().uuidString
     
     
     /// Department in which the order was placed. At this point, FSE does not allow ordering from multiple departments in one order.
@@ -43,7 +43,7 @@ class PastOrder: Object
     
     
     /// Date and time of when the order was generated.
-    var dateAndTimePlaced: Date = Date()
+    @objc dynamic var dateAndTimePlaced: Date = Date()
     
     
     /// Relevant information about the items that will be stored and allow for order restoring.
@@ -61,11 +61,11 @@ class PastOrder: Object
     
     
     /// Primary charge account used.
-    var primaryChargeAccount: String = ""
+    @objc dynamic var primaryChargeAccount: String = ""
     
     
     /// AA Code used for the order. Can be oprional, as not all orders will include items which can be charged on the AA code.
-    var aaCodeUsed: String = ""
+    @objc dynamic var aaCodeUsed: String = ""
     
 }
 
@@ -108,6 +108,7 @@ extension PastOrder
                     {
                         if item.id == key
                         {
+                            foundItem = true
                             if overrideQuantities { item.quantity = value.quantity }
                             else { item.quantity += value.quantity }
                         }
