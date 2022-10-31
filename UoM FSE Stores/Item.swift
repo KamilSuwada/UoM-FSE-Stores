@@ -133,7 +133,7 @@ class Item: Object
     // method for expressing the item as one line, for order.
     public func returnFormattedSelf() -> String
     {
-        return "\(self.quantity) x \(self.name) - \(self.code)\n"
+        return "\(self.quantity) x \(self.name)"
     }
     
 }

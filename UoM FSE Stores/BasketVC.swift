@@ -23,24 +23,42 @@ class BasketVC: UIViewController
     private var catalogue: Catalogue!
     
     
+    /// Order Logic
+    private let orderLogic: OrderLogic = OrderLogic()
+    
+    
     /// basketTableView to display all catalogue.
     private let basketTable: UITableView =
     {
         let tableView = UITableView(frame: .zero, style: .insetGrouped)
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.separatorStyle = .none
+        tableView.separatorStyle = .singleLine
         tableView.allowsMultipleSelection = true
         return tableView
     }()
     
     
-    //MARK: - DATA WRAPPERS:
+    /// Button which clears the basket.
+    private var clearBasketButton: UIBarButtonItem!
     
     
-    private var basket: Array<String>
-    {
-        get { return Array<String>() } // temp...
-    }
+    /// Button which saves the usual order.
+    private var saveUsualOrderButton: UIBarButtonItem!
+    
+    
+    /// Button which restores the usual order.
+    private var restoreUsualOrderButton: UIBarButtonItem!
+    
+    
+    //MARK: - DATA:
+    
+    
+    /// Dictionary of sections in table view and corresponding departments.
+    private var departmentAtSection: [Int : Department] = [:]
+    
+    
+    /// Bool indicating if all baskets are empty.
+    private var allEmpty: Bool = true
     
     
     //MARK: - VC LIFE CYCLE:
@@ -74,6 +92,7 @@ extension BasketVC
         setupView()
         registerForNotifications()
         setupTableView()
+        setupNavigationBarButtons()
     }
     
     
@@ -104,6 +123,57 @@ extension BasketVC
         ])
     }
     
+    
+    private func setupNavigationBarButtons()
+    {
+        clearBasketButton = UIBarButtonItem(image: UIImage(systemName: "trash"), style: .plain, target: self, action: #selector(didTapTrashButton))
+        clearBasketButton.tintColor = .systemRed
+        
+        
+        //arrow.down.to.line
+        
+        restoreUsualOrderButton = UIBarButtonItem(image: UIImage(systemName: "arrow.down.to.line"), style: .plain, target: self, action: #selector(didTapRestoreUsualOrder))
+        restoreUsualOrderButton.tintColor = .systemBlue
+        
+        
+        //arrow.up.to.line
+        
+        saveUsualOrderButton = UIBarButtonItem(image: UIImage(systemName: "arrow.up.to.line"), style: .plain, target: self, action: #selector(didTapSaveUsualOrder))
+        saveUsualOrderButton.tintColor = .systemBlue
+        
+        
+        navigationItem.leftBarButtonItems = [clearBasketButton, saveUsualOrderButton]
+        navigationItem.rightBarButtonItems = [restoreUsualOrderButton]
+    }
+    
+}
+
+
+// MARK: - BarButtonItems methods:
+extension BasketVC
+{
+    
+    @objc private func didTapTrashButton(_ sender: UIBarButtonItem)
+    {
+        // TODO: Add alert to confirm deletion + deletion of all if no cells are selected or deletion of some if some cells are selected.
+        
+        orderLogic.clearBasket()
+        NotificationCenter.default.post(name: .dataDidChange, object: nil)
+        print("DATA DID CHANGE NOTIFICATION POSTED BY: BasketVC")
+    }
+    
+    
+    @objc private func didTapSaveUsualOrder(_ sender: UIBarButtonItem)
+    {
+        // TODO: Save usual order.
+    }
+    
+    
+    @objc private func didTapRestoreUsualOrder(_ sender: UIBarButtonItem)
+    {
+        // TODO: Restore usual order: either replace or add to current basket; ask via alert.
+    }
+    
 }
 
 
@@ -113,39 +183,81 @@ extension BasketVC: UITableViewDelegate, UITableViewDataSource
     
     func numberOfSections(in tableView: UITableView) -> Int
     {
-        return 2
+        var i: Int = 0
+        departmentAtSection.removeAll()
+        
+        for department in catalogue.departments
+        {
+            if !orderLogic.isBasketEmpty(for: department)
+            {
+                departmentAtSection.updateValue(department, forKey: i)
+                i += 1
+            }
+        }
+        
+        if i == 0
+        {
+            self.allEmpty = true
+            return 1
+        }
+        else
+        {
+            self.allEmpty = false
+            return i
+        }
     }
     
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String?
     {
-        return "Section \(section) title."
+        if allEmpty { return nil }
+        let department = departmentAtSection[section]!
+        let numberOfItems = orderLogic.numberOfAllItemsInBasket(for: department)
+        return "\(department.name.capitalized): \(numberOfItems) items"
     }
     
     
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String?
     {
-        return "Section \(section) footer."
+        if allEmpty { return nil }
+        let department = departmentAtSection[section]!
+        let total = orderLogic.totalInBasket(for: department)
+        return "Total for \(department.name.capitalized): \(total)"
     }
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
-        return 3
+        if allEmpty { return 1 }
+        let department = departmentAtSection[section]!
+        return orderLogic.numberOfItemsInBasket(for: department)
     }
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
-        let cell = UITableViewCell()
-        cell.textLabel?.text = "Section \(indexPath.section)     Row: \(indexPath.row)"
-        return cell
+        if allEmpty
+        {
+            let cell = UITableViewCell()
+            cell.textLabel?.text = "Browse catalogue to add more items!"
+            cell.textLabel?.numberOfLines = 0
+            return cell
+        }
+        else
+        {
+            let department = departmentAtSection[indexPath.section]!
+            let cell = UITableViewCell()
+            cell.textLabel?.text = orderLogic.baskets[department.name]![indexPath.row].returnFormattedSelf()
+            cell.textLabel?.numberOfLines = 0
+            return cell
+        }
     }
     
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
     {
         tableView.deselectRow(at: indexPath, animated: true)
+        if allEmpty { self.tabBarController?.selectedIndex = 0 }
     }
     
 }
@@ -158,7 +270,6 @@ extension BasketVC
     @objc private func refreshView()
     {
         basketTable.reloadData()
-        basketTable.backgroundColor = .red
     }
     
 }

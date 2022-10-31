@@ -142,7 +142,7 @@ extension DepartmentVC
     
     @objc func refreshView()
     {
-        
+        departmentTableView.reloadData()
     }
     
 }

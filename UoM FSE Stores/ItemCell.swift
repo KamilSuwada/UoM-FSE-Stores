@@ -177,7 +177,7 @@ class ItemCell: UITableViewCell
     {
         let button = UIButton(type: .custom)
         button.translatesAutoresizingMaskIntoConstraints = false
-        let minus = UIImage(systemName: "minus.circle")!.withTintColor(.label, renderingMode: .alwaysOriginal)
+        let minus = UIImage(systemName: "minus.circle")!.withTintColor(.systemBlue, renderingMode: .alwaysOriginal)
         button.setImage(minus, for: .normal)
         button.contentVerticalAlignment = .fill
         button.contentHorizontalAlignment = .fill
@@ -206,7 +206,7 @@ class ItemCell: UITableViewCell
     {
         let button = UIButton(type: .custom)
         button.translatesAutoresizingMaskIntoConstraints = false
-        let plus = UIImage(systemName: "plus.circle")!.withTintColor(.label, renderingMode: .alwaysOriginal)
+        let plus = UIImage(systemName: "plus.circle")!.withTintColor(.systemBlue, renderingMode: .alwaysOriginal)
         button.setImage(plus, for: .normal)
         button.contentVerticalAlignment = .fill
         button.contentHorizontalAlignment = .fill

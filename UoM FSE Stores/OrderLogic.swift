@@ -22,6 +22,87 @@ class OrderLogic
     /// Array of past orders for all departments. Filer further to get per department.
     var pastOrders: Results<PastOrder> { return realm.objects(PastOrder.self) }
     
+    
+    /// Holds a reference to all items in basket for a given department. Updated every time self.currentBasket(for department) is called.
+    var baskets: [String : Array<Item>] = [:]
+    
+    
+// MARK: - Basket discovery methods:
+    
+    
+    /// Method tells if a basket in a given department is empty.
+    public func isBasketEmpty(for department: Department) -> Bool
+    {
+        for item in department.allItems
+        {
+            if item.quantity > 0 { return false }
+        }
+        
+        return true
+    }
+    
+    
+    /// Method returns number of items (all) in basket for a given department.
+    public func numberOfAllItemsInBasket(for department: Department) -> Int
+    {
+        var count: Int = 0
+        
+        for item in department.allItems
+        {
+            if item.quantity > 0 { count += item.quantity }
+        }
+        
+        return count
+    }
+    
+    
+    /// Method returns number of items (kinds) in basket for a given department.
+    public func numberOfItemsInBasket(for department: Department) -> Int
+    {
+        var count: Int = 0
+        
+        for item in department.allItems
+        {
+            if item.quantity > 0 { count += 1 }
+        }
+        
+        return count
+    }
+    
+    
+    /// Method returns total in basket for a given department.
+    public func totalInBasket(for department: Department) -> String
+    {
+        var total: Double = 0.0
+        
+        for item in self.currentBasket(for: department)
+        {
+            total += item.price * Double(item.quantity)
+        }
+        
+        return String(format: "£%.2f", total)
+    }
+    
+    
+    public func clearBasket()
+    {
+        let allItems = realm.objects(Item.self)
+        
+        do
+        {
+            try realm.write({
+                for item in allItems
+                {
+                    if item.quantity > 0 { item.quantity = 0 }
+                }
+            })
+        }
+        catch
+        {
+            print(error.localizedDescription)
+        }
+    }
+    
 }
 
 
@@ -29,7 +110,7 @@ class OrderLogic
 extension OrderLogic
 {
     
-    private func currentBasket(for department: Department) -> Array<Item>
+    public func currentBasket(for department: Department) -> Array<Item>
     {
         var output = Array<Item>()
         
@@ -41,20 +122,26 @@ extension OrderLogic
             }
         }
         
+        self.baskets.updateValue(output, forKey: department.name)
         return output
     }
     
     
-    public func generateOrder(for department: Department) -> (String, String)
+    public func generateOrder(for department: Department) -> (String, String)?
     {
+        guard let name = User.name, User.name != "" else { return nil }
+        guard let lab = User.lab, User.lab != "" else { return nil }
+        guard let primaryChargeAccount = User.primaryChargeAccount, User.primaryChargeAccount != "" else { return nil }
+        guard let aaCode = User.aaCode, User.aaCode != "" else { return nil }
+        
         var ppeItem: Int = 0
-        var orderList: String = ""
+        var orderList: String = "\(primaryChargeAccount)\n"
         var orderString = """
 Dear \(department.name.capitalized) Stores,
 
-It is \(User.name) from the \(User.lab).
+It is \(name) from the \(lab).
 
-I would like to place an order for the following items for which, I would like to use code: \(User.primaryChargeAccount):
+I would like to place an order for the following items for which, I would like to use code: \(primaryChargeAccount):
 
 
 
@@ -64,7 +151,7 @@ I would like to place an order for the following items for which, I would like t
         {
             if item.isPPE == false
             {
-                let line = "\(item.quantity)x \(item.name) - \(item.code)\n"
+                let line = "\(item.quantity)x \(item.name) : \(item.code)\n"
                 orderString = orderString + line
                 orderList = orderList + line
             }
@@ -76,22 +163,16 @@ I would like to place an order for the following items for which, I would like t
         
         if ppeItem != 0
         {
-            orderString = orderString + "\n\n"
-            orderString = orderString + "Additionally, we would like to add the following PPE items to the order using code: \(User.aaCode):"
-            
-            orderString = orderString + "\n\n"
+            orderString += "\n\nAdditionally, we would like to add the following PPE items to the order using code: \(aaCode):\n\n"
+            orderList += "\n\n\(primaryChargeAccount)\n"
             
             for item in self.currentBasket(for: department)
             {
                 if item.isPPE == true
                 {
-                    let line = "\(item.quantity)x \(item.name) - \(item.code)\n"
+                    let line = "\(item.quantity)x \(item.name) : \(item.code)\n"
                     orderString = orderString + line
                     orderList = orderList + line
-                }
-                else
-                {
-                    ppeItem += 1
                 }
             }
             
@@ -107,7 +188,7 @@ Thank you for any help with this,
 
 Kind Regards
 
-\(User.name)
+\(name)
 """
         
         orderString = orderString + endingString

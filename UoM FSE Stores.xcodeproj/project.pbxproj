@@ -104,6 +104,7 @@
 			children = (
 				7F90B25528F74EAF00047012 /* AppDelegate.swift */,
 				7F90B25428F74EAF00047012 /* MainVC.swift */,
+				7FAB614329073BD4000A2DE2 /* User.swift */,
 				7F90B25228F74E8F00047012 /* Data Model */,
 				7F90B24F28F74E7E00047012 /* Catalogue */,
 				7F90B25A28F74ED500047012 /* Basket */,
@@ -159,8 +160,6 @@
 			isa = PBXGroup;
 			children = (
 				7FAB613C29072B93000A2DE2 /* OrderLogic.swift */,
-				7FAB614329073BD4000A2DE2 /* User.swift */,
-				7FAB613E29072C2E000A2DE2 /* PastOrder.swift */,
 				7F90B26128F74EF700047012 /* Catalogue.swift */,
 				7F90B25E28F74EF700047012 /* CatalogueManager.swift */,
 				7F90B25F28F74EF700047012 /* Department.swift */,
@@ -210,6 +209,7 @@
 		7FAB6140290739D0000A2DE2 /* PastOrders */ = {
 			isa = PBXGroup;
 			children = (
+				7FAB613E29072C2E000A2DE2 /* PastOrder.swift */,
 			);
 			name = PastOrders;
 			sourceTree = "<group>";
