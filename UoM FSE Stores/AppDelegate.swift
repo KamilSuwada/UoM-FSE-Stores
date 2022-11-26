@@ -5,7 +5,8 @@
 //  Created by Kamil Suwada on 04/10/2022.
 //
 
-import UIKit; import RealmSwift
+import UIKit
+import RealmSwift
 
 
 @main

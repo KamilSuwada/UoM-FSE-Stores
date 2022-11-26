@@ -23,6 +23,10 @@ class MainVC: UITabBarController
     let catalogue = Catalogue()
     
     
+    /// Logic for ordering.
+    let orderLogic = OrderLogic()
+    
+    
     // MARK: - VC LIFE CYLCE:
     
     
@@ -44,7 +48,7 @@ extension MainVC
     
     private func setupViews()
     {
-        let basketVC = BasketVC(self.catalogue)
+        let basketVC = BasketVC(catalogue: self.catalogue, orderLogic: self.orderLogic)
         basketVC.setTabBarImage(imageName: "archivebox.fill", title: "Basket")
         
         
@@ -52,7 +56,7 @@ extension MainVC
         catalogueVC.setTabBarImage(imageName: "tray.2.fill", title: "Catalouge")
         
         
-        let orderVC = UIViewController()
+        let orderVC = OrderVC(catalogue: self.catalogue, orderLogic: self.orderLogic)
         orderVC.setTabBarImage(imageName: "doc.text.fill", title: "Order")
         
         

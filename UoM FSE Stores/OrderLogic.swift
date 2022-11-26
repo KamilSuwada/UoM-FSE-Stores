@@ -84,14 +84,13 @@ class OrderLogic
     }
     
     
-    public func clearBasket()
+    /// Function clears basket.
+    public func clearBasket(for department: Department)
     {
-        let allItems = realm.objects(Item.self)
-        
         do
         {
             try realm.write({
-                for item in allItems
+                for item in department.allItems
                 {
                     if item.quantity > 0 { item.quantity = 0 }
                 }
@@ -110,6 +109,7 @@ class OrderLogic
 extension OrderLogic
 {
     
+    /// Returns items in basket for department.
     public func currentBasket(for department: Department) -> Array<Item>
     {
         var output = Array<Item>()
@@ -127,6 +127,69 @@ extension OrderLogic
     }
     
     
+    /// Method updates usual order for department.
+    public func updateUsualOrder(for department: Department) -> Bool
+    {
+        let basket = currentBasket(for: department)
+        
+        do
+        {
+            try realm.write({
+                for item in department.allItems
+                {
+                    if item.isUsual
+                    {
+                        item.makeUsual(false)
+                    }
+                }
+                
+                for item in basket
+                {
+                    item.makeUsual(true)
+                }
+            })
+        }
+        catch
+        {
+            print(error.localizedDescription)
+            return false
+        }
+        
+        return true
+    }
+    
+    
+    /// Method restores usual order for department.
+    public func restoreUsualOrder(for department: Department, add: Bool = false) -> Bool
+    {
+        if add == false
+        {
+            self.clearBasket(for: department)
+        }
+        
+        do
+        {
+            try realm.write({
+                for item in department.allItems
+                {
+                    if item.isUsual
+                    {
+                        item.quantity += item.usualQuantity
+                    }
+                }
+            })
+        }
+        catch
+        {
+            print(error.localizedDescription)
+            return false
+        }
+        
+        return true
+    }
+    
+    
+    /// Method generates order for a department.
     public func generateOrder(for department: Department) -> (String, String)?
     {
         guard let name = User.name, User.name != "" else { return nil }

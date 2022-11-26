@@ -303,10 +303,11 @@ extension DepartmentVC
 extension DepartmentVC: SearchResultsViewDelegate, ChangeQuantityViewDelegate
 {
     
-    func didResign(at indexPath: IndexPath)
+    func didResign(at indexPath: IndexPath?)
     {
-        departmentTableView.deselectRow(at: indexPath, animated: true)
         selectedIndexPath = nil
+        guard let i = indexPath else { return }
+        departmentTableView.deselectRow(at: i, animated: true)
     }
     
     
@@ -546,7 +547,6 @@ extension DepartmentVC: ItemCellDelegate
     private func notifyDataDidChange()
     {
         NotificationCenter.default.post(name: .dataDidChange, object: nil)
-        print("DATA DID CHANGE NOTIFICATION POSTED BY: DepartmentVC")
     }
     
 }

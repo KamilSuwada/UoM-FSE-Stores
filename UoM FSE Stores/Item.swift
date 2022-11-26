@@ -5,8 +5,8 @@
 //  Created by Kamil Suwada on 04/10/2022.
 //
 
-import Foundation; import RealmSwift
-
+import Foundation
+import RealmSwift
 
 
 
@@ -25,6 +25,8 @@ class Item: Object
     @objc dynamic var isWaste: Bool = false
     var keywords: Array<String> = Array<String>()
     @objc dynamic var imageName: String = ""
+    @objc dynamic var isUsual: Bool = false
+    @objc dynamic var usualQuantity: Int = 0
     
     var parentCategory = LinkingObjects(fromType: Category.self, property: "items")
     
@@ -52,14 +54,14 @@ class Item: Object
     //MARK: - METHODS:
     
     
-    // computed property which returns quantity of the item as e.g. x 4
+    /// Computed property which returns quantity of the item as e.g. x 4
     public var formattedQuantity: String
     {
         return "x \(self.quantity)"
     }
     
     
-    // formatted price returns quantity * price of the selection as e.g. 12.53
+    /// Formatted price returns quantity * price of the selection as e.g. 12.53
     public var formattedPrice: String
     {
         let amount = self.price * Double(self.quantity)
@@ -67,14 +69,14 @@ class Item: Object
     }
     
     
-    // formatted list price returns price of the selection as e.g. 12.53
+    /// Formatted list price returns price of the selection as e.g. 12.53
     public var formattedListPrice: String
     {
         return String(format: "£%.2f", self.price)
     }
     
     
-    // method for gneration of a short name: ful name is split into an array by the space character set, then first 4 words are rejoined.
+    /// Method for gneration of a short name: ful name is split into an array by the space character set, then first 4 words are rejoined.
     public var shortName: String
     {
         let words = self.name.components(separatedBy: " ")
@@ -92,21 +94,21 @@ class Item: Object
     }
     
     
-    // method for increasing quantity by 1.
+    /// Method for increasing quantity by 1.
     public func didTapPlusOne()
     {
         self.quantity += 1
     }
     
     
-    // method for decreasing the quantity by 1. Only called when quantity is greater than zero: we will not order -1 bottles of DCM.
+    /// Method for decreasing the quantity by 1. Only called when quantity is greater than zero: we will not order -1 bottles of DCM.
     public func didTapMinusOne()
     {
         if (self.quantity > 0) { self.quantity -= 1 }
     }
     
     
-    // method called before calling didTapMinusOne. Will determine if the operation is allowed, for UI updates.
+    /// Method called before calling didTapMinusOne. Will determine if the operation is allowed, for UI updates.
     public func willTapMinusOne() -> Bool
     {
         if (self.quantity > 0) { return true }
@@ -114,14 +116,14 @@ class Item: Object
     }
     
     
-    // method for toggling the selection of an item as favourite.
+    /// Method for toggling the selection of an item as favourite.
     public func didTapFavourite()
     {
         self.isFavourite.toggle()
     }
     
     
-    // method for setting the quantity manually.
+    /// Method for setting the quantity manually.
     public func changeQuantity(to number: Int)
     {
         guard number >= 0 else { return }
@@ -130,10 +132,19 @@ class Item: Object
     
     
     
-    // method for expressing the item as one line, for order.
+    /// Method for expressing the item as one line, for order.
     public func returnFormattedSelf() -> String
     {
         return "\(self.quantity) x \(self.name)"
+    }
+    
+    
+    /// Method makes the order usual.
+    public func makeUsual(_ bool: Bool)
+    {
+        self.isUsual = bool
+        if bool { self.usualQuantity = self.quantity }
+        else { self.usualQuantity = 0 }
     }
     
 }

@@ -11,7 +11,7 @@ import UIKit; import RealmSwift
 protocol ChangeQuantityViewDelegate: AnyObject
 {
     func dataOfItemDidChange(at indexPath: IndexPath)
-    func didResign(at indexPath: IndexPath)
+    func didResign(at indexPath: IndexPath?)
 }
 
 
@@ -314,11 +314,10 @@ extension ChangeQuantityView
     public func resign()
     {
         guard let d = delegate else { fatalError("ChangeQuantityView does not have a delegate!") }
-        guard let IP = indexPath else { fatalError("ChangeQuantityView should have an asociated index path for the item!") }
+        let IP = indexPath
         viewWillHide()
         quantityTextField.resignFirstResponder()
         d.didResign(at: IP)
-        
     }
     
     

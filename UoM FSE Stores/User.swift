@@ -17,29 +17,31 @@ class User
     
     static var name: String?
     {
-        get { return UserDefaults.standard.string(forKey: "user_name") }
-        set { UserDefaults.standard.set(newValue, forKey: "user_name") }
+        get { return "Kamil" }
     }
     
     
     static var lab: String?
     {
-        get { return UserDefaults.standard.string(forKey: "user_lab") }
-        set { UserDefaults.standard.set(newValue, forKey: "user_lab") }
+        get { return "Lab 2.04" }
     }
     
     
     static var primaryChargeAccount: String?
     {
-        get { return UserDefaults.standard.string(forKey: "user_code") }
-        set { UserDefaults.standard.set(newValue, forKey: "user_code") }
+        get { return "<PRIMARY_CODE>" }
     }
     
     
     static var aaCode: String?
     {
-        get { return UserDefaults.standard.string(forKey: "user_aaCode") }
-        set { UserDefaults.standard.set(newValue, forKey: "user_aaCode") }
+        get { return "<AA_CODE>" }
+    }
+    
+    
+    static var orderAsEmail: Bool
+    {
+        get { return true }
     }
     
 }
