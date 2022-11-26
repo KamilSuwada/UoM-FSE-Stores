@@ -214,7 +214,7 @@ I would like to place an order for the following items for which, I would like t
         {
             if item.isPPE == false
             {
-                let line = "\(item.quantity)x \(item.name) : \(item.code)\n"
+                let line = "\(item.quantity)x \(item.name) - \(item.code)\n"
                 orderString = orderString + line
                 orderList = orderList + line
             }
@@ -233,7 +233,7 @@ I would like to place an order for the following items for which, I would like t
             {
                 if item.isPPE == true
                 {
-                    let line = "\(item.quantity)x \(item.name) : \(item.code)\n"
+                    let line = "\(item.quantity)x \(item.name) - \(item.code)\n"
                     orderString = orderString + line
                     orderList = orderList + line
                 }
